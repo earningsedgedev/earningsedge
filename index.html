@@ -965,6 +965,13 @@
         entries.forEach(entry => { if (entry.isIntersecting) entry.target.classList.add('visible'); });
     }, { threshold: 0.1 });
     document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+
+    // Track outbound link clicks
+    document.querySelectorAll('a[href*="ko-fi.com"]').forEach(link => {
+        link.addEventListener('click', () => {
+            gtag('event', 'link_click', { link_name: 'kofi_click', link_url: link.href });
+        });
+    });
 </script>
 
 </body>
