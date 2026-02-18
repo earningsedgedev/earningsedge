@@ -1,0 +1,971 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EarningsEdge — Earnings Dashboard for Momentum Traders</title>
+    <meta name="description" content="Chrome extension for momentum swing traders. Research episodic pivots, earnings breakouts, and catalyst-driven moves. Built for Qullamaggie and Stockbee style trading.">
+    <meta name="keywords" content="earnings dashboard, episodic pivots, momentum trading, swing trading, earnings breakouts, chrome extension, stock earnings, analyst ratings, insider transactions, Qullamaggie, Stockbee, Minervini, earnings calendar, EPS surprises, revenue growth, catalyst trading">
+    <meta name="author" content="EarningsEdge">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://earningsedgedev.github.io/earningsedge/">
+
+    <!-- Open Graph (Facebook, LinkedIn, Discord, etc.) -->
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="EarningsEdge — Earnings Dashboard for Momentum Traders">
+    <meta property="og:description" content="Chrome extension for momentum swing traders. Research episodic pivots, earnings breakouts, and catalyst-driven moves in one dashboard.">
+    <meta property="og:url" content="https://earningsedgedev.github.io/earningsedge/">
+    <meta property="og:site_name" content="EarningsEdge">
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="EarningsEdge — Earnings Dashboard for Momentum Traders">
+    <meta name="twitter:description" content="Chrome extension for momentum swing traders. Research episodic pivots, earnings breakouts, and catalyst-driven moves.">
+
+    <!-- Structured Data (Google Rich Results) -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "SoftwareApplication",
+        "name": "EarningsEdge",
+        "operatingSystem": "Chrome",
+        "applicationCategory": "FinanceApplication",
+        "description": "Earnings dashboard Chrome extension for momentum swing traders. Research episodic pivots, earnings breakouts, and catalyst-driven moves.",
+        "url": "https://earningsedgedev.github.io/earningsedge/",
+        "author": {
+            "@type": "Person",
+            "name": "EarningsEdge"
+        },
+        "offers": {
+            "@type": "Offer",
+            "price": "0",
+            "priceCurrency": "USD"
+        }
+    }
+    </script>
+
+    <!-- Google Analytics 4 -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-G9KWF4DSSG"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'G-G9KWF4DSSG');
+    </script>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <style>
+        *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+        :root {
+            --bg-primary: #0a0a0a;
+            --bg-secondary: #111111;
+            --bg-card: #161616;
+            --bg-card-hover: #1a1a1a;
+            --border: #222222;
+            --border-secondary: #2d2d2d;
+            --text-primary: #ffffff;
+            --text-secondary: #888888;
+            --text-muted: #555555;
+            --accent: #10b981;
+            --accent-hover: #34d399;
+            --accent-dark: #064e3b;
+            --accent-glow: rgba(16, 185, 129, 0.12);
+            --green: #10b981;
+            --red: #ff1744;
+        }
+
+        html { scroll-behavior: smooth; }
+
+        body {
+            font-family: 'DM Sans', sans-serif;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        body::before {
+            content: '';
+            position: fixed;
+            inset: 0;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.03'/%3E%3C/svg%3E");
+            pointer-events: none;
+            z-index: 9999;
+        }
+
+        .glow-bg {
+            position: fixed;
+            top: -200px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 800px;
+            height: 600px;
+            background: radial-gradient(ellipse, rgba(16, 185, 129, 0.06) 0%, transparent 70%);
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .container {
+            max-width: 1080px;
+            margin: 0 auto;
+            padding: 0 24px;
+            position: relative;
+            z-index: 1;
+        }
+
+        /* === NAV === */
+        nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 100;
+            padding: 16px 0;
+            background: rgba(10, 10, 10, 0.88);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid var(--border);
+        }
+
+        nav .container {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            text-decoration: none;
+        }
+
+        .logo-icon {
+            width: 32px;
+            height: 32px;
+            background: linear-gradient(135deg, var(--accent), var(--accent-hover));
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: 'JetBrains Mono', monospace;
+            font-weight: 700;
+            font-size: 16px;
+            color: #fff;
+        }
+
+        .logo-text {
+            font-size: 18px;
+            font-weight: 700;
+            color: var(--text-primary);
+            letter-spacing: -0.02em;
+        }
+
+        .logo-text span { color: var(--accent); }
+
+        .nav-links {
+            display: flex;
+            gap: 32px;
+            align-items: center;
+        }
+
+        .nav-links a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 500;
+            transition: color 0.2s;
+        }
+
+        .nav-links a:hover { color: var(--text-primary); }
+
+        .nav-cta {
+            background: var(--accent) !important;
+            color: #fff !important;
+            padding: 8px 20px;
+            border-radius: 8px;
+            font-weight: 600 !important;
+            transition: all 0.2s !important;
+        }
+
+        .nav-cta:hover {
+            background: var(--accent-hover) !important;
+            transform: translateY(-1px);
+        }
+
+        /* === HERO === */
+        .hero {
+            padding: 160px 0 80px;
+            text-align: center;
+        }
+
+        .badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 6px 16px;
+            background: var(--accent-glow);
+            border: 1px solid rgba(16, 185, 129, 0.2);
+            border-radius: 100px;
+            font-size: 13px;
+            font-weight: 500;
+            color: var(--accent);
+            margin-bottom: 28px;
+            animation: fadeInUp 0.6s ease both;
+        }
+
+        .badge::before {
+            content: '';
+            width: 6px;
+            height: 6px;
+            background: var(--green);
+            border-radius: 50%;
+            animation: pulse-dot 2s infinite;
+        }
+
+        @keyframes pulse-dot {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.4; }
+        }
+
+        h1 {
+            font-size: clamp(40px, 5.5vw, 64px);
+            font-weight: 700;
+            line-height: 1.1;
+            letter-spacing: -0.03em;
+            margin-bottom: 24px;
+            animation: fadeInUp 0.6s ease 0.1s both;
+        }
+
+        h1 .gradient {
+            background: linear-gradient(135deg, #10b981, #34d399, #6ee7b7);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .hero-sub {
+            font-size: 18px;
+            color: var(--text-secondary);
+            max-width: 600px;
+            margin: 0 auto 40px;
+            line-height: 1.7;
+            animation: fadeInUp 0.6s ease 0.2s both;
+        }
+
+        .hero-actions {
+            display: flex;
+            gap: 16px;
+            justify-content: center;
+            flex-wrap: wrap;
+            animation: fadeInUp 0.6s ease 0.3s both;
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 14px 28px;
+            border-radius: 10px;
+            font-size: 15px;
+            font-weight: 600;
+            text-decoration: none;
+            transition: all 0.25s;
+            cursor: pointer;
+            border: none;
+        }
+
+        .btn-primary {
+            background: var(--accent);
+            color: #fff;
+            box-shadow: 0 0 24px rgba(16, 185, 129, 0.2);
+        }
+
+        .btn-primary:hover {
+            background: var(--accent-hover);
+            transform: translateY(-2px);
+            box-shadow: 0 0 32px rgba(16, 185, 129, 0.3);
+        }
+
+        .btn-secondary {
+            background: var(--bg-card);
+            color: var(--text-primary);
+            border: 1px solid var(--border);
+        }
+
+        .btn-secondary:hover {
+            background: var(--bg-card-hover);
+            border-color: var(--text-muted);
+            transform: translateY(-2px);
+        }
+
+        /* === SCREENSHOT MOCK === */
+        .screenshot-section {
+            padding: 40px 0 100px;
+            animation: fadeInUp 0.8s ease 0.4s both;
+        }
+
+        .screenshot-wrapper {
+            position: relative;
+            border-radius: 16px;
+            overflow: hidden;
+            border: 1px solid var(--border);
+            box-shadow: 0 0 0 1px rgba(255,255,255,0.02), 0 24px 80px rgba(0,0,0,0.6), 0 0 120px rgba(16,185,129,0.04);
+        }
+
+        .mock-dashboard {
+            width: 100%;
+            aspect-ratio: 16/9.5;
+            background: var(--bg-secondary);
+            overflow: hidden;
+            padding: 20px;
+        }
+
+        .mock-topbar { display: flex; align-items: center; gap: 12px; margin-bottom: 16px; }
+
+        .mock-search {
+            flex: 1;
+            max-width: 320px;
+            height: 36px;
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            padding: 0 12px;
+            gap: 8px;
+        }
+
+        .mock-search-icon {
+            width: 14px;
+            height: 14px;
+            border: 2px solid var(--text-muted);
+            border-radius: 50%;
+            position: relative;
+        }
+
+        .mock-search-icon::after {
+            content: '';
+            position: absolute;
+            bottom: -4px;
+            right: -4px;
+            width: 6px;
+            height: 2px;
+            background: var(--text-muted);
+            transform: rotate(45deg);
+        }
+
+        .mock-search-text {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 13px;
+            color: var(--accent);
+            font-weight: 500;
+        }
+
+        .mock-ticker-info { display: flex; align-items: baseline; gap: 16px; margin-bottom: 4px; }
+
+        .mock-ticker {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 22px;
+            font-weight: 700;
+            color: var(--text-primary);
+        }
+
+        .mock-company { font-size: 14px; color: var(--text-secondary); }
+
+        .mock-price-row { display: flex; gap: 16px; align-items: baseline; margin-bottom: 16px; }
+
+        .mock-price {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 18px;
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+
+        .mock-change {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 13px;
+            color: var(--green);
+            font-weight: 500;
+        }
+
+        .mock-tabs {
+            display: flex;
+            gap: 2px;
+            margin-bottom: 16px;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .mock-tab {
+            padding: 8px 16px;
+            font-size: 12px;
+            font-weight: 500;
+            color: var(--text-muted);
+            border-bottom: 2px solid transparent;
+            margin-bottom: -1px;
+        }
+
+        .mock-tab.active { color: var(--accent); border-bottom-color: var(--accent); }
+
+        .mock-table { width: 100%; }
+
+        .mock-table-header {
+            display: grid;
+            grid-template-columns: 100px repeat(5, 1fr);
+            gap: 1px;
+            margin-bottom: 4px;
+            padding: 6px 8px;
+        }
+
+        .mock-th {
+            font-size: 10px;
+            font-weight: 600;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            font-family: 'JetBrains Mono', monospace;
+        }
+
+        .mock-table-row {
+            display: grid;
+            grid-template-columns: 100px repeat(5, 1fr);
+            gap: 1px;
+            padding: 7px 8px;
+            border-radius: 4px;
+        }
+
+        .mock-table-row:nth-child(even) { background: rgba(255,255,255,0.015); }
+
+        .mock-td {
+            font-size: 12px;
+            font-family: 'JetBrains Mono', monospace;
+            color: var(--text-secondary);
+        }
+
+        .mock-td.green { color: var(--green); }
+        .mock-td.red { color: var(--red); }
+        .mock-td.bright { color: var(--text-primary); }
+
+        /* === BUILT FOR SECTION === */
+        .built-for {
+            padding: 80px 0;
+        }
+
+        .built-for-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 60px;
+            align-items: center;
+            margin-top: 48px;
+        }
+
+        .built-for-text h3 {
+            font-size: 22px;
+            font-weight: 700;
+            margin-bottom: 16px;
+            letter-spacing: -0.02em;
+        }
+
+        .built-for-text p {
+            color: var(--text-secondary);
+            font-size: 15px;
+            line-height: 1.7;
+            margin-bottom: 16px;
+        }
+
+        .trading-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-top: 24px;
+        }
+
+        .trading-tag {
+            padding: 6px 14px;
+            background: var(--accent-glow);
+            border: 1px solid rgba(16, 185, 129, 0.15);
+            border-radius: 100px;
+            font-size: 13px;
+            font-weight: 500;
+            color: var(--accent);
+        }
+
+        .checklist {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        .checklist li {
+            display: flex;
+            gap: 12px;
+            align-items: flex-start;
+            font-size: 15px;
+            color: var(--text-secondary);
+            line-height: 1.6;
+        }
+
+        .checklist li .check {
+            flex-shrink: 0;
+            width: 22px;
+            height: 22px;
+            border-radius: 50%;
+            background: var(--accent-glow);
+            border: 1px solid rgba(16, 185, 129, 0.2);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+            color: var(--accent);
+            margin-top: 2px;
+        }
+
+        /* === FEATURES === */
+        .features { padding: 80px 0; }
+
+        .section-label {
+            font-size: 13px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            color: var(--accent);
+            margin-bottom: 12px;
+        }
+
+        .section-title {
+            font-size: clamp(28px, 3.5vw, 40px);
+            font-weight: 700;
+            letter-spacing: -0.02em;
+            margin-bottom: 16px;
+        }
+
+        .section-desc {
+            color: var(--text-secondary);
+            font-size: 16px;
+            max-width: 560px;
+            margin-bottom: 56px;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+        }
+
+        .feature-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 14px;
+            padding: 28px;
+            transition: all 0.3s;
+        }
+
+        .feature-card:hover {
+            background: var(--bg-card-hover);
+            border-color: rgba(16, 185, 129, 0.15);
+            transform: translateY(-4px);
+            box-shadow: 0 12px 40px rgba(0,0,0,0.3);
+        }
+
+        .feature-icon {
+            width: 44px;
+            height: 44px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+            margin-bottom: 18px;
+            background: var(--accent-glow);
+        }
+
+        .feature-card h3 { font-size: 16px; font-weight: 600; margin-bottom: 8px; }
+        .feature-card p { font-size: 14px; color: var(--text-secondary); line-height: 1.6; }
+
+        /* === HOW IT WORKS === */
+        .how-it-works { padding: 80px 0; }
+
+        .steps {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 32px;
+            margin-top: 56px;
+        }
+
+        .step { text-align: center; }
+
+        .step-number {
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            background: var(--accent-glow);
+            border: 1px solid rgba(16, 185, 129, 0.2);
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 18px;
+            font-weight: 700;
+            color: var(--accent);
+            margin-bottom: 20px;
+        }
+
+        .step h3 { font-size: 16px; font-weight: 600; margin-bottom: 8px; }
+        .step p { font-size: 14px; color: var(--text-secondary); line-height: 1.6; }
+
+        /* === SUPPORT === */
+        .support { padding: 100px 0; text-align: center; }
+
+        .support-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 20px;
+            padding: 56px 40px;
+            max-width: 600px;
+            margin: 0 auto;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .support-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, var(--accent), transparent);
+        }
+
+        .support-card h2 { font-size: 28px; font-weight: 700; letter-spacing: -0.02em; margin-bottom: 12px; }
+        .support-card p { color: var(--text-secondary); font-size: 15px; margin-bottom: 32px; line-height: 1.7; }
+
+        .kofi-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            padding: 14px 32px;
+            background: var(--accent);
+            color: #fff;
+            border-radius: 10px;
+            font-size: 15px;
+            font-weight: 600;
+            text-decoration: none;
+            transition: all 0.25s;
+        }
+
+        .kofi-btn:hover {
+            background: var(--accent-hover);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 24px rgba(16, 185, 129, 0.2);
+        }
+
+        /* === FOOTER === */
+        footer {
+            padding: 40px 0;
+            border-top: 1px solid var(--border);
+            text-align: center;
+        }
+
+        footer p { font-size: 13px; color: var(--text-muted); }
+        footer a { color: var(--text-secondary); text-decoration: none; }
+        footer a:hover { color: var(--text-primary); }
+
+        /* === ANIMATIONS === */
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .fade-in { opacity: 0; transform: translateY(20px); transition: all 0.6s ease; }
+        .fade-in.visible { opacity: 1; transform: translateY(0); }
+
+        /* === RESPONSIVE === */
+        @media (max-width: 768px) {
+            .features-grid, .steps { grid-template-columns: 1fr; }
+            .built-for-grid { grid-template-columns: 1fr; gap: 40px; }
+            .nav-links a:not(.nav-cta) { display: none; }
+            .hero { padding: 120px 0 60px; }
+            .mock-dashboard { padding: 12px; }
+            .mock-table-header, .mock-table-row { grid-template-columns: 80px repeat(3, 1fr); }
+            .mock-th:nth-child(n+5), .mock-td:nth-child(n+5) { display: none; }
+        }
+
+        @media (max-width: 480px) {
+            .hero-actions { flex-direction: column; align-items: center; }
+            .btn { width: 100%; justify-content: center; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="glow-bg"></div>
+
+<!-- NAV -->
+<nav>
+    <div class="container">
+        <a href="#" class="logo">
+            <div class="logo-icon">E</div>
+            <div class="logo-text">Earnings<span>Edge</span></div>
+        </a>
+        <div class="nav-links">
+            <a href="#built-for">Trading Style</a>
+            <a href="#features">Features</a>
+            <a href="#support">Support</a>
+            <a href="https://ko-fi.com/earningsedge" class="nav-cta" target="_blank">☕ Support</a>
+        </div>
+    </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+    <div class="container">
+        <div class="badge">Chrome Extension — In Active Development</div>
+        <h1>Research earnings.<br><span class="gradient">Find breakouts.</span></h1>
+        <p class="hero-sub">
+            A Chrome extension built for momentum swing traders. Research episodic pivots, earnings surprises, and catalyst-driven breakouts — all the data you need in one dashboard.
+        </p>
+        <div class="hero-actions">
+            <a href="https://ko-fi.com/earningsedge" class="btn btn-primary" target="_blank">☕ Support on Ko-fi</a>
+            <a href="#built-for" class="btn btn-secondary">Learn More ↓</a>
+        </div>
+    </div>
+</section>
+
+<!-- SCREENSHOT MOCK -->
+<section class="screenshot-section">
+    <div class="container">
+        <div class="screenshot-wrapper">
+            <div class="mock-dashboard">
+                <div class="mock-topbar">
+                    <div class="mock-search">
+                        <div class="mock-search-icon"></div>
+                        <span class="mock-search-text">NVDA</span>
+                    </div>
+                </div>
+                <div class="mock-ticker-info">
+                    <span class="mock-ticker">NVDA</span>
+                    <span class="mock-company">NVIDIA Corporation</span>
+                </div>
+                <div class="mock-price-row">
+                    <span class="mock-price">$131.28</span>
+                    <span class="mock-change">+3.42 (+2.68%)</span>
+                </div>
+                <div class="mock-tabs">
+                    <div class="mock-tab active">Earnings</div>
+                    <div class="mock-tab">Analysts</div>
+                    <div class="mock-tab">Insiders</div>
+                    <div class="mock-tab">Chart</div>
+                    <div class="mock-tab">News</div>
+                </div>
+                <div class="mock-table">
+                    <div class="mock-table-header">
+                        <div class="mock-th">Quarter</div>
+                        <div class="mock-th">EPS</div>
+                        <div class="mock-th">Est.</div>
+                        <div class="mock-th">Surp %</div>
+                        <div class="mock-th">Rev (Bil)</div>
+                        <div class="mock-th">Rev %CHG</div>
+                    </div>
+                    <div class="mock-table-row">
+                        <div class="mock-td bright">Jan 2025</div>
+                        <div class="mock-td bright">0.89</div>
+                        <div class="mock-td">0.85</div>
+                        <div class="mock-td green">+4.71%</div>
+                        <div class="mock-td bright">39.33</div>
+                        <div class="mock-td green">+78.2%</div>
+                    </div>
+                    <div class="mock-table-row">
+                        <div class="mock-td bright">Oct 2024</div>
+                        <div class="mock-td bright">0.81</div>
+                        <div class="mock-td">0.75</div>
+                        <div class="mock-td green">+8.00%</div>
+                        <div class="mock-td bright">35.08</div>
+                        <div class="mock-td green">+93.6%</div>
+                    </div>
+                    <div class="mock-table-row">
+                        <div class="mock-td bright">Jul 2024</div>
+                        <div class="mock-td bright">0.68</div>
+                        <div class="mock-td">0.65</div>
+                        <div class="mock-td green">+4.62%</div>
+                        <div class="mock-td bright">30.04</div>
+                        <div class="mock-td green">+122.4%</div>
+                    </div>
+                    <div class="mock-table-row">
+                        <div class="mock-td bright">Apr 2024</div>
+                        <div class="mock-td bright">0.60</div>
+                        <div class="mock-td">0.58</div>
+                        <div class="mock-td green">+3.45%</div>
+                        <div class="mock-td bright">26.04</div>
+                        <div class="mock-td green">+262.1%</div>
+                    </div>
+                    <div class="mock-table-row">
+                        <div class="mock-td bright">Jan 2024</div>
+                        <div class="mock-td bright">0.52</div>
+                        <div class="mock-td">0.49</div>
+                        <div class="mock-td green">+6.12%</div>
+                        <div class="mock-td bright">22.10</div>
+                        <div class="mock-td green">+265.3%</div>
+                    </div>
+                    <div class="mock-table-row">
+                        <div class="mock-td bright">Oct 2023</div>
+                        <div class="mock-td bright">0.40</div>
+                        <div class="mock-td">0.37</div>
+                        <div class="mock-td green">+8.11%</div>
+                        <div class="mock-td bright">18.12</div>
+                        <div class="mock-td green">+205.5%</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- BUILT FOR MOMENTUM TRADERS -->
+<section class="built-for fade-in" id="built-for">
+    <div class="container">
+        <div class="section-label">Built for Momentum Traders</div>
+        <h2 class="section-title">Your edge on earnings season.</h2>
+        <p class="section-desc">Designed for traders who study Qullamaggie, Stockbee, and Minervini-style setups. Get the fundamental data behind the biggest moves.</p>
+
+        <div class="built-for-grid">
+            <div class="built-for-text">
+                <h3>Research episodic pivots faster</h3>
+                <p>
+                    The best breakouts start with a catalyst. A massive earnings beat, accelerating revenue growth, or a guidance raise that changes the story — these are the episodic pivots that launch new trends.
+                </p>
+                <p>
+                    EarningsEdge gives you instant access to the data that matters: earnings surprises, revenue acceleration, and historical beat patterns. No more digging through multiple sites to validate a setup.
+                </p>
+                <div class="trading-tags">
+                    <span class="trading-tag">Episodic Pivots</span>
+                    <span class="trading-tag">Earnings Breakouts</span>
+                    <span class="trading-tag">Momentum Swing Trading</span>
+                    <span class="trading-tag">Catalyst Research</span>
+                </div>
+            </div>
+            <div>
+                <ul class="checklist">
+                    <li>
+                        <span class="check">✓</span>
+                        <span>Spot earnings beats and revenue acceleration at a glance with color-coded surprise percentages</span>
+                    </li>
+                    <li>
+                        <span class="check">✓</span>
+                        <span>Track consecutive beat streaks across 8 quarters to identify companies in a growth phase</span>
+                    </li>
+                    <li>
+                        <span class="check">✓</span>
+                        <span>Weekly earnings calendar with BMO/AMC timing and market cap filters to plan your watchlist</span>
+                    </li>
+                    <li>
+                        <span class="check">✓</span>
+                        <span>Monitor insider buying activity for confirmation signals alongside earnings data</span>
+                    </li>
+                    <li>
+                        <span class="check">✓</span>
+                        <span>Check analyst upgrades and price target raises that follow strong earnings reports</span>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- FEATURES -->
+<section class="features fade-in" id="features">
+    <div class="container">
+        <div class="section-label">Features</div>
+        <h2 class="section-title">Everything in one place.</h2>
+        <p class="section-desc">No more jumping between websites. Get the data you need to validate setups and plan trades — instantly.</p>
+        <div class="features-grid">
+            <div class="feature-card">
+                <div class="feature-icon">📊</div>
+                <h3>Earnings History</h3>
+                <p>8 quarters of historical EPS and revenue with estimates, surprises, and year-over-year growth. Plus 4 future quarters of estimates.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">📅</div>
+                <h3>Earnings Calendar</h3>
+                <p>Weekly earnings calendar with BMO/AMC grouping, market cap filters, and sortable columns. Click any ticker to load its dashboard.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">🏢</div>
+                <h3>Analyst Ratings</h3>
+                <p>Consensus rating, price targets, and a full table of recent upgrades, downgrades, and initiations from major firms.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">👤</div>
+                <h3>Insider Transactions</h3>
+                <p>Track insider buys and sells with transaction values and position changes. Know what company insiders are doing with their shares.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">📰</div>
+                <h3>Aggregated News</h3>
+                <p>News from multiple sources in one feed. Filter by source, sort by date, and stay on top of what's moving your stocks.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">⚡</div>
+                <h3>Fast & Easy</h3>
+                <p>No API keys. No account required. Just install the extension and start using it immediately. Get up and running in seconds.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- HOW IT WORKS -->
+<section class="how-it-works fade-in" id="how-it-works">
+    <div class="container">
+        <div class="section-label">How it Works</div>
+        <h2 class="section-title">Up and running in seconds.</h2>
+        <p class="section-desc">No configuration needed. Install, search, and get the data you need.</p>
+        <div class="steps">
+            <div class="step">
+                <div class="step-number">1</div>
+                <h3>Install the Extension</h3>
+                <p>Add EarningsEdge to Chrome. No account or API keys required — works out of the box.</p>
+            </div>
+            <div class="step">
+                <div class="step-number">2</div>
+                <h3>Search Any Ticker</h3>
+                <p>Type a stock symbol and hit enter. The dashboard loads earnings, analysts, insiders, and news in parallel.</p>
+            </div>
+            <div class="step">
+                <div class="step-number">3</div>
+                <h3>Validate Your Setups</h3>
+                <p>Check earnings beats, revenue trends, analyst sentiment, and insider activity — everything you need to confirm a trade thesis.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- SUPPORT -->
+<section class="support fade-in" id="support">
+    <div class="container">
+        <div class="support-card">
+            <h2>Support the Project</h2>
+            <p>EarningsEdge is built and maintained by a solo developer and active trader. If you find it useful, a small donation helps keep development going.</p>
+            <a href="https://ko-fi.com/earningsedge" class="kofi-btn" target="_blank">☕ Buy Me a Coffee</a>
+        </div>
+    </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+    <div class="container">
+        <p>© 2025 EarningsEdge — Built for traders, by a trader. <a href="https://ko-fi.com/earningsedge" target="_blank">Ko-fi</a></p>
+    </div>
+</footer>
+
+<script>
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => { if (entry.isIntersecting) entry.target.classList.add('visible'); });
+    }, { threshold: 0.1 });
+    document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+</script>
+
+</body>
+</html>
