@@ -153,6 +153,8 @@ EarningsEdge is built and maintained by a solo developer and active trader. If i
 
 Bug reports and feature requests: [GitHub Issues](https://github.com/earningsedgedev/earningsedge/issues)
 
+Contact: earningsedge.dev@gmail.com
+
 ---
 
 ## License
