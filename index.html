@@ -551,7 +551,7 @@
 
         .features-grid {
             display: grid;
-            grid-template-columns: repeat(3, 1fr);
+            grid-template-columns: repeat(4, 1fr);
             gap: 20px;
         }
 
@@ -674,6 +674,37 @@
         footer a { color: var(--text-secondary); text-decoration: none; }
         footer a:hover { color: var(--text-primary); }
 
+        /* === THEMES SCANNER === */
+        .themes-section { padding: 100px 0; }
+        .themes-layout { display: grid; grid-template-columns: 1.15fr 1fr; gap: 56px; margin-top: 56px; align-items: start; }
+        .themes-text h3 { font-size: 24px; font-weight: 700; margin-bottom: 16px; }
+        .themes-text p { font-size: 16px; color: var(--text-secondary); line-height: 1.7; margin-bottom: 16px; }
+
+        .themes-mock {
+            border-radius: 16px; overflow: hidden;
+            border: 1px solid var(--border);
+            box-shadow: 0 0 0 1px rgba(255,255,255,0.02), 0 24px 80px rgba(0,0,0,0.6);
+            background: var(--bg-secondary);
+        }
+        .themes-mock .mock-body { padding: 20px; }
+        .themes-mock .mock-table-header, .themes-mock .mock-table-row {
+            display: grid; gap: 1px; padding: 6px 8px;
+            grid-template-columns: 60px minmax(100px, 1.5fr) repeat(5, 1fr);
+        }
+        .themes-mock .mock-table-row { border-bottom: 1px solid rgba(34, 34, 34, 0.6); }
+        .themes-mock .mock-table-row:last-child { border-bottom: none; }
+
+        .mock-tag {
+            display: inline-block; padding: 2px 7px; border-radius: 4px; font-size: 9px; font-weight: 500;
+            background: rgba(234, 179, 8, 0.1); color: #eab308; border: 1px solid rgba(234, 179, 8, 0.12);
+        }
+        .mock-filter-row { display: flex; gap: 8px; margin-bottom: 14px; flex-wrap: wrap; }
+        .mock-filter {
+            padding: 5px 12px; border-radius: 6px; font-size: 11px; font-weight: 500;
+            background: var(--bg-card); border: 1px solid var(--border); color: var(--text-secondary);
+        }
+        .mock-filter.active { border-color: var(--accent); color: var(--accent); background: var(--accent-glow); }
+
         /* === ANIMATIONS === */
         @keyframes fadeInUp {
             from { opacity: 0; transform: translateY(20px); }
@@ -684,14 +715,23 @@
         .fade-in.visible { opacity: 1; transform: translateY(0); }
 
         /* === RESPONSIVE === */
+        @media (max-width: 900px) {
+            .features-grid { grid-template-columns: repeat(2, 1fr); }
+            .themes-layout { grid-template-columns: 1fr; gap: 40px; }
+            .themes-layout > :first-child { order: 2; }
+            .themes-layout > :last-child { order: 1; }
+        }
         @media (max-width: 768px) {
-            .features-grid, .steps { grid-template-columns: 1fr; }
+            .features-grid { grid-template-columns: repeat(2, 1fr); }
+            .steps { grid-template-columns: 1fr; }
             .built-for-grid { grid-template-columns: 1fr; gap: 40px; }
             .nav-links a:not(.nav-cta) { display: none; }
             .hero { padding: 120px 0 60px; }
             .mock-dashboard { padding: 12px; }
             .mock-table-header, .mock-table-row { grid-template-columns: 80px repeat(3, 1fr); }
             .mock-th:nth-child(n+5), .mock-td:nth-child(n+5) { display: none; }
+            .themes-mock .mock-table-header, .themes-mock .mock-table-row { grid-template-columns: 50px 1fr repeat(3, 1fr); }
+            .themes-mock .mock-th:nth-child(n+6), .themes-mock .mock-td:nth-child(n+6) { display: none; }
         }
 
         @media (max-width: 480px) {
@@ -715,6 +755,7 @@
             <a href="#built-for">Trading Style</a>
             <a href="#features">Features</a>
             <a href="#install">Install</a>
+            <a href="#themes">Scans</a>
             <a href="https://github.com/earningsedgedev/earningsedge" target="_blank">GitHub</a>
             <a href="https://ko-fi.com/earningsedge" class="nav-cta" target="_blank">☕ Support</a>
         </div>
@@ -759,8 +800,11 @@
                     <div class="mock-tab active">Earnings</div>
                     <div class="mock-tab">Analysts</div>
                     <div class="mock-tab">Insiders</div>
+                    <div class="mock-tab">Short Int.</div>
+                    <div class="mock-tab">Funds</div>
                     <div class="mock-tab">Chart</div>
                     <div class="mock-tab">News</div>
+                    <div class="mock-tab">Analysis</div>
                 </div>
                 <div class="mock-table">
                     <div class="mock-table-header">
@@ -904,6 +948,16 @@
                 <p>Track insider buys and sells with transaction values and position changes. Know what company insiders are doing with their shares.</p>
             </div>
             <div class="feature-card">
+                <div class="feature-icon">📉</div>
+                <h3>Short Interest</h3>
+                <p>Summary card + biweekly history. Shares short, % of float, days to cover — one year of data points to spot squeeze setups.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">🏛️</div>
+                <h3>Institutional Funds</h3>
+                <p>Institutional ownership %, accumulation/distribution signal, net inflow, and the 15 most recent fund filings.</p>
+            </div>
+            <div class="feature-card">
                 <div class="feature-icon">📰</div>
                 <h3>Aggregated News</h3>
                 <p>News from multiple sources in one feed. Filter by source, sort by date, and stay on top of what's moving your stocks.</p>
@@ -912,6 +966,71 @@
                 <div class="feature-icon">⚡</div>
                 <h3>Fast & Easy</h3>
                 <p>No API keys. No account required. Just install the extension and start using it immediately. Get up and running in seconds.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- THEMES SCANNER -->
+<section class="themes-section fade-in" id="themes">
+    <div class="container">
+        <div class="section-label">Scans</div>
+        <h2 class="section-title">What's working right now.</h2>
+        <p class="section-desc">The Themes scanner shows top-performing ETFs across every timeframe. Find which sectors and themes are leading — semiconductors, energy, gold miners, shipping, and more.</p>
+        <div class="themes-layout">
+            <div class="themes-mock">
+                <div class="mock-body">
+                    <div style="font-size: 15px; font-weight: 600; margin-bottom: 12px;">Themes Scanner</div>
+                    <div class="mock-filter-row">
+                        <div class="mock-filter active">All Themes</div>
+                        <div class="mock-filter">Semiconductors</div>
+                        <div class="mock-filter">Energy</div>
+                        <div class="mock-filter">Gold Miners</div>
+                    </div>
+                    <div class="mock-table">
+                        <div class="mock-table-header">
+                            <div class="mock-th">Ticker</div><div class="mock-th">Name</div>
+                            <div class="mock-th">Daily</div><div class="mock-th">Weekly</div><div class="mock-th">Monthly</div>
+                            <div class="mock-th">YTD</div><div class="mock-th">52W</div>
+                        </div>
+                        <div class="mock-table-row">
+                            <div class="mock-td bright">SMH</div>
+                            <div class="mock-td"><span style="color:var(--text-secondary)">VanEck Semiconductor</span> <span class="mock-tag">semis</span></div>
+                            <div class="mock-td green">+1.82%</div><div class="mock-td green">+4.31%</div><div class="mock-td green">+7.65%</div>
+                            <div class="mock-td red">-2.14%</div><div class="mock-td green">+18.7%</div>
+                        </div>
+                        <div class="mock-table-row">
+                            <div class="mock-td bright">XLE</div>
+                            <div class="mock-td"><span style="color:var(--text-secondary)">Energy Select SPDR</span> <span class="mock-tag" style="background:rgba(249,115,22,0.1);color:#f97316;border-color:rgba(249,115,22,0.12)">energy</span></div>
+                            <div class="mock-td green">+0.94%</div><div class="mock-td green">+2.18%</div><div class="mock-td green">+5.32%</div>
+                            <div class="mock-td green">+8.91%</div><div class="mock-td green">+12.4%</div>
+                        </div>
+                        <div class="mock-table-row">
+                            <div class="mock-td bright">GDX</div>
+                            <div class="mock-td"><span style="color:var(--text-secondary)">VanEck Gold Miners</span> <span class="mock-tag" style="background:rgba(234,179,8,0.1);color:#eab308;border-color:rgba(234,179,8,0.12)">gold</span></div>
+                            <div class="mock-td green">+2.41%</div><div class="mock-td green">+6.87%</div><div class="mock-td green">+14.2%</div>
+                            <div class="mock-td green">+22.5%</div><div class="mock-td green">+41.8%</div>
+                        </div>
+                        <div class="mock-table-row">
+                            <div class="mock-td bright">BOAT</div>
+                            <div class="mock-td"><span style="color:var(--text-secondary)">SonicShares Shipping</span> <span class="mock-tag" style="background:rgba(59,130,246,0.1);color:#3b82f6;border-color:rgba(59,130,246,0.12)">shipping</span></div>
+                            <div class="mock-td red">-0.65%</div><div class="mock-td green">+3.44%</div><div class="mock-td green">+9.81%</div>
+                            <div class="mock-td green">+15.2%</div><div class="mock-td green">+28.6%</div>
+                        </div>
+                        <div class="mock-table-row">
+                            <div class="mock-td bright">XLK</div>
+                            <div class="mock-td"><span style="color:var(--text-secondary)">Technology Select</span> <span class="mock-tag" style="background:rgba(139,92,246,0.1);color:#a78bfa;border-color:rgba(139,92,246,0.12)">tech</span></div>
+                            <div class="mock-td green">+1.24%</div><div class="mock-td green">+3.05%</div><div class="mock-td green">+5.88%</div>
+                            <div class="mock-td green">+1.42%</div><div class="mock-td green">+22.1%</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="themes-text">
+                <h3>Find the leading themes</h3>
+                <p>Before you pick stocks, know which sectors are moving. The Themes scanner ranks non-leveraged ETFs by performance across daily, weekly, monthly, YTD, and 52-week timeframes.</p>
+                <p>Each ETF is tagged by sector — semiconductors, energy, gold miners, shipping, biotech, and more. Sort by any column to find what's leading. Filter by AUM and volume to focus on liquid names.</p>
+                <p>Hover any ticker for a weekly chart preview. Click to load a full ETF dashboard with holdings breakdown.</p>
             </div>
         </div>
     </div>
@@ -957,7 +1076,7 @@
 <!-- FOOTER -->
 <footer>
     <div class="container">
-        <p>© 2025 EarningsEdge — Built for traders, by a trader. <a href="https://github.com/earningsedgedev/earningsedge" target="_blank">GitHub</a> · <a href="https://ko-fi.com/earningsedge" target="_blank">Ko-fi</a></p>
+        <p>© 2026 EarningsEdge — Built for traders, by a trader. <a href="https://github.com/earningsedgedev/earningsedge" target="_blank">GitHub</a> · <a href="https://ko-fi.com/earningsedge" target="_blank">Ko-fi</a></p>
     </div>
 </footer>
 
@@ -971,6 +1090,11 @@
     document.querySelectorAll('a[href*="ko-fi.com"]').forEach(link => {
         link.addEventListener('click', () => {
             gtag('event', 'link_click', { link_name: 'kofi_click', link_url: link.href });
+        });
+    });
+    document.querySelectorAll('a[href*="github.com"]').forEach(link => {
+        link.addEventListener('click', () => {
+            gtag('event', 'link_click', { link_name: 'github_click', link_url: link.href });
         });
     });
 </script>
