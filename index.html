@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>EarningsEdge — Earnings Dashboard for Momentum Traders</title>
     <meta name="description" content="Chrome extension for momentum swing traders. Research episodic pivots, earnings breakouts, and catalyst-driven moves. Built for Qullamaggie and Stockbee style trading.">
-    <meta name="keywords" content="earnings dashboard, episodic pivots, momentum trading, swing trading, earnings breakouts, chrome extension, stock earnings, analyst ratings, insider transactions, Qullamaggie, Stockbee, Minervini, earnings calendar, EPS surprises, revenue growth, catalyst trading">
+    <meta name="keywords" content="earnings dashboard, episodic pivots, momentum trading, swing trading, earnings breakouts, chrome extension, stock earnings, analyst ratings, insider transactions, Qullamaggie, Stockbee, Minervini, earnings calendar, EPS surprises, revenue growth, catalyst trading, stock screener, market movers, relative strength, sector rotation, ETF scanner">
     <meta name="author" content="EarningsEdge">
     <meta name="robots" content="index, follow">
     <link rel="canonical" href="https://earningsedgedev.github.io/earningsedge/">
@@ -413,7 +413,7 @@
 
         .mock-table-header {
             display: grid;
-            grid-template-columns: 100px repeat(5, 1fr);
+            grid-template-columns: 100px repeat(6, 1fr);
             gap: 1px;
             margin-bottom: 4px;
             padding: 6px 8px;
@@ -430,7 +430,7 @@
 
         .mock-table-row {
             display: grid;
-            grid-template-columns: 100px repeat(5, 1fr);
+            grid-template-columns: 100px repeat(6, 1fr);
             gap: 1px;
             padding: 7px 8px;
             border-radius: 4px;
@@ -689,7 +689,7 @@
         .themes-mock .mock-body { padding: 20px; }
         .themes-mock .mock-table-header, .themes-mock .mock-table-row {
             display: grid; gap: 1px; padding: 6px 8px;
-            grid-template-columns: 60px minmax(100px, 1.5fr) repeat(5, 1fr);
+            grid-template-columns: 60px repeat(6, 1fr);
         }
         .themes-mock .mock-table-row { border-bottom: 1px solid rgba(34, 34, 34, 0.6); }
         .themes-mock .mock-table-row:last-child { border-bottom: none; }
@@ -798,70 +798,67 @@
                 </div>
                 <div class="mock-tabs">
                     <div class="mock-tab active">Earnings</div>
+                    <div class="mock-tab">News</div>
                     <div class="mock-tab">Analysts</div>
                     <div class="mock-tab">Insiders</div>
-                    <div class="mock-tab">Short Int.</div>
                     <div class="mock-tab">Funds</div>
-                    <div class="mock-tab">Chart</div>
-                    <div class="mock-tab">News</div>
+                    <div class="mock-tab">Short Int.</div>
                     <div class="mock-tab">Analysis</div>
                 </div>
                 <div class="mock-table">
                     <div class="mock-table-header">
                         <div class="mock-th">Quarter</div>
                         <div class="mock-th">EPS</div>
-                        <div class="mock-th">Est.</div>
-                        <div class="mock-th">Surp %</div>
-                        <div class="mock-th">Rev (Bil)</div>
-                        <div class="mock-th">Rev %CHG</div>
+                        <div class="mock-th">%CHG</div>
+                        <div class="mock-th">%SURP</div>
+                        <div class="mock-th">Rev(Bil)</div>
+                        <div class="mock-th">%CHG</div>
+                        <div class="mock-th">%SURP</div>
                     </div>
                     <div class="mock-table-row">
-                        <div class="mock-td bright">Jan 2025</div>
-                        <div class="mock-td bright">0.89</div>
-                        <div class="mock-td">0.85</div>
-                        <div class="mock-td green">+4.71%</div>
-                        <div class="mock-td bright">39.33</div>
-                        <div class="mock-td green">+78.2%</div>
+                        <div class="mock-td bright">Q1 2024</div>
+                        <div class="mock-td bright">0.61</div>
+                        <div class="mock-td">—</div>
+                        <div class="mock-td green">9.29%</div>
+                        <div class="mock-td bright">26.0</div>
+                        <div class="mock-td">—</div>
+                        <div class="mock-td green">5.9%</div>
                     </div>
                     <div class="mock-table-row">
-                        <div class="mock-td bright">Oct 2024</div>
-                        <div class="mock-td bright">0.81</div>
-                        <div class="mock-td">0.75</div>
-                        <div class="mock-td green">+8.00%</div>
-                        <div class="mock-td bright">35.08</div>
-                        <div class="mock-td green">+93.6%</div>
-                    </div>
-                    <div class="mock-table-row">
-                        <div class="mock-td bright">Jul 2024</div>
+                        <div class="mock-td bright">Q2 2024</div>
                         <div class="mock-td bright">0.68</div>
-                        <div class="mock-td">0.65</div>
-                        <div class="mock-td green">+4.62%</div>
-                        <div class="mock-td bright">30.04</div>
-                        <div class="mock-td green">+122.4%</div>
+                        <div class="mock-td">—</div>
+                        <div class="mock-td green">5.39%</div>
+                        <div class="mock-td bright">30.0</div>
+                        <div class="mock-td">—</div>
+                        <div class="mock-td green">4.38%</div>
                     </div>
                     <div class="mock-table-row">
-                        <div class="mock-td bright">Apr 2024</div>
-                        <div class="mock-td bright">0.60</div>
-                        <div class="mock-td">0.58</div>
-                        <div class="mock-td green">+3.45%</div>
-                        <div class="mock-td bright">26.04</div>
-                        <div class="mock-td green">+262.1%</div>
+                        <div class="mock-td bright">Q3 2024</div>
+                        <div class="mock-td bright">0.81</div>
+                        <div class="mock-td">—</div>
+                        <div class="mock-td green">8.26%</div>
+                        <div class="mock-td bright">35.1</div>
+                        <div class="mock-td">—</div>
+                        <div class="mock-td green">5.76%</div>
                     </div>
                     <div class="mock-table-row">
-                        <div class="mock-td bright">Jan 2024</div>
-                        <div class="mock-td bright">0.52</div>
-                        <div class="mock-td">0.49</div>
-                        <div class="mock-td green">+6.12%</div>
-                        <div class="mock-td bright">22.10</div>
-                        <div class="mock-td green">+265.3%</div>
+                        <div class="mock-td bright">Q4 2024</div>
+                        <div class="mock-td bright">0.89</div>
+                        <div class="mock-td">—</div>
+                        <div class="mock-td green">4.97%</div>
+                        <div class="mock-td bright">39.3</div>
+                        <div class="mock-td">—</div>
+                        <div class="mock-td green">3.23%</div>
                     </div>
                     <div class="mock-table-row">
-                        <div class="mock-td bright">Oct 2023</div>
-                        <div class="mock-td bright">0.40</div>
-                        <div class="mock-td">0.37</div>
-                        <div class="mock-td green">+8.11%</div>
-                        <div class="mock-td bright">18.12</div>
-                        <div class="mock-td green">+205.5%</div>
+                        <div class="mock-td bright">Q1 2025</div>
+                        <div class="mock-td bright">0.81</div>
+                        <div class="mock-td green">33%</div>
+                        <div class="mock-td green">9.89%</div>
+                        <div class="mock-td bright">44.1</div>
+                        <div class="mock-td green">69%</div>
+                        <div class="mock-td green">1.68%</div>
                     </div>
                 </div>
             </div>
@@ -935,17 +932,17 @@
             <div class="feature-card">
                 <div class="feature-icon">📅</div>
                 <h3>Earnings Calendar</h3>
-                <p>Weekly earnings calendar with BMO/AMC grouping, market cap filters, and sortable columns. Click any ticker to load its dashboard.</p>
+                <p>Weekly earnings calendar with BMO/AMC grouping, market cap filters, ADR%, and adaptive price columns that switch between pre-market, market, and after-hours data.</p>
             </div>
             <div class="feature-card">
                 <div class="feature-icon">🏢</div>
                 <h3>Analyst Ratings</h3>
-                <p>Consensus rating, price targets, and a full table of recent upgrades, downgrades, and initiations from major firms.</p>
+                <p>Consensus rating, price targets, and a detailed table of upgrades, downgrades, and initiations merged from multiple data sources.</p>
             </div>
             <div class="feature-card">
                 <div class="feature-icon">👤</div>
                 <h3>Insider Transactions</h3>
-                <p>Track insider buys and sells with transaction values and position changes. Know what company insiders are doing with their shares.</p>
+                <p>Corporate insider buys and sells with values and position changes. Includes congressional and politician trades tagged with party and state.</p>
             </div>
             <div class="feature-card">
                 <div class="feature-icon">📉</div>
@@ -958,9 +955,29 @@
                 <p>Institutional ownership %, accumulation/distribution signal, net inflow, and the 15 most recent fund filings.</p>
             </div>
             <div class="feature-card">
+                <div class="feature-icon">🔥</div>
+                <h3>Movers Scanner</h3>
+                <p>Top 200 gainers and losers across pre-market, market hours, and after-hours. Filter by market cap, volume, ADR%, and change %.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">📈</div>
+                <h3>Industry RS</h3>
+                <p>Sector and industry relative strength rankings with breadth bars, trend arrows, and leader tickers. Find which groups are leading the market.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">🏷️</div>
+                <h3>Stock Themes</h3>
+                <p>40 themes, 268 sub-themes — from AI to uranium. Expand any sub-theme to see individual tickers with performance across 8 timeframes.</p>
+            </div>
+            <div class="feature-card">
                 <div class="feature-icon">📰</div>
-                <h3>Aggregated News</h3>
-                <p>News from multiple sources in one feed. Filter by source, sort by date, and stay on top of what's moving your stocks.</p>
+                <h3>ETF Dashboard</h3>
+                <p>Search any ETF for a dedicated dashboard with performance, top 15 holdings with price changes, news, and analysis. Click holdings to jump to stock view.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">⌨️</div>
+                <h3>Command Palette</h3>
+                <p>Hit Space or ⌘K to search tickers with autocomplete, jump to recent searches, or navigate to any scanner — all from the keyboard.</p>
             </div>
             <div class="feature-card">
                 <div class="feature-icon">⚡</div>
@@ -975,62 +992,61 @@
 <section class="themes-section fade-in" id="themes">
     <div class="container">
         <div class="section-label">Scans</div>
-        <h2 class="section-title">What's working right now.</h2>
-        <p class="section-desc">The Themes scanner shows top-performing ETFs across every timeframe. Find which sectors and themes are leading — semiconductors, energy, gold miners, shipping, and more.</p>
+        <h2 class="section-title">Know what's moving — and why.</h2>
+        <p class="section-desc">Four scanners to find the leading sectors, hottest movers, and strongest industry groups. From daily gappers to long-term theme trends.</p>
         <div class="themes-layout">
             <div class="themes-mock">
                 <div class="mock-body">
-                    <div style="font-size: 15px; font-weight: 600; margin-bottom: 12px;">Themes Scanner</div>
+                    <div style="font-size: 15px; font-weight: 600; margin-bottom: 12px;">Movers — Market Hours</div>
                     <div class="mock-filter-row">
-                        <div class="mock-filter active">All Themes</div>
-                        <div class="mock-filter">Semiconductors</div>
-                        <div class="mock-filter">Energy</div>
-                        <div class="mock-filter">Gold Miners</div>
+                        <div class="mock-filter active">Gainers</div>
+                        <div class="mock-filter">Losers</div>
+                        <div class="mock-filter" style="margin-left:auto; opacity:0.5;">Pre-Market</div>
+                        <div class="mock-filter" style="opacity:0.5;">After-Hours</div>
                     </div>
                     <div class="mock-table">
                         <div class="mock-table-header">
-                            <div class="mock-th">Ticker</div><div class="mock-th">Name</div>
-                            <div class="mock-th">Daily</div><div class="mock-th">Weekly</div><div class="mock-th">Monthly</div>
-                            <div class="mock-th">YTD</div><div class="mock-th">52W</div>
+                            <div class="mock-th">Ticker</div><div class="mock-th">Mkt Cap</div>
+                            <div class="mock-th">Chg%</div><div class="mock-th">ADR%</div><div class="mock-th">RVol</div>
+                            <div class="mock-th">Float</div><div class="mock-th">Short%</div>
                         </div>
                         <div class="mock-table-row">
-                            <div class="mock-td bright">SMH</div>
-                            <div class="mock-td"><span style="color:var(--text-secondary)">VanEck Semiconductor</span> <span class="mock-tag">semis</span></div>
-                            <div class="mock-td green">+1.82%</div><div class="mock-td green">+4.31%</div><div class="mock-td green">+7.65%</div>
-                            <div class="mock-td red">-2.14%</div><div class="mock-td green">+18.7%</div>
+                            <div class="mock-td bright">RDDT</div>
+                            <div class="mock-td">28.4B</div>
+                            <div class="mock-td green">+14.2%</div><div class="mock-td">5.8%</div><div class="mock-td green">8.4x</div>
+                            <div class="mock-td">86.2M</div><div class="mock-td">4.1%</div>
                         </div>
                         <div class="mock-table-row">
-                            <div class="mock-td bright">XLE</div>
-                            <div class="mock-td"><span style="color:var(--text-secondary)">Energy Select SPDR</span> <span class="mock-tag" style="background:rgba(249,115,22,0.1);color:#f97316;border-color:rgba(249,115,22,0.12)">energy</span></div>
-                            <div class="mock-td green">+0.94%</div><div class="mock-td green">+2.18%</div><div class="mock-td green">+5.32%</div>
-                            <div class="mock-td green">+8.91%</div><div class="mock-td green">+12.4%</div>
+                            <div class="mock-td bright">HIMS</div>
+                            <div class="mock-td">12.1B</div>
+                            <div class="mock-td green">+11.8%</div><div class="mock-td">7.2%</div><div class="mock-td green">5.1x</div>
+                            <div class="mock-td">204M</div><div class="mock-td">8.3%</div>
                         </div>
                         <div class="mock-table-row">
-                            <div class="mock-td bright">GDX</div>
-                            <div class="mock-td"><span style="color:var(--text-secondary)">VanEck Gold Miners</span> <span class="mock-tag" style="background:rgba(234,179,8,0.1);color:#eab308;border-color:rgba(234,179,8,0.12)">gold</span></div>
-                            <div class="mock-td green">+2.41%</div><div class="mock-td green">+6.87%</div><div class="mock-td green">+14.2%</div>
-                            <div class="mock-td green">+22.5%</div><div class="mock-td green">+41.8%</div>
+                            <div class="mock-td bright">CELH</div>
+                            <div class="mock-td">7.8B</div>
+                            <div class="mock-td green">+9.5%</div><div class="mock-td">6.1%</div><div class="mock-td green">4.2x</div>
+                            <div class="mock-td">225M</div><div class="mock-td">12.4%</div>
                         </div>
                         <div class="mock-table-row">
-                            <div class="mock-td bright">BOAT</div>
-                            <div class="mock-td"><span style="color:var(--text-secondary)">SonicShares Shipping</span> <span class="mock-tag" style="background:rgba(59,130,246,0.1);color:#3b82f6;border-color:rgba(59,130,246,0.12)">shipping</span></div>
-                            <div class="mock-td red">-0.65%</div><div class="mock-td green">+3.44%</div><div class="mock-td green">+9.81%</div>
-                            <div class="mock-td green">+15.2%</div><div class="mock-td green">+28.6%</div>
+                            <div class="mock-td bright">DUOL</div>
+                            <div class="mock-td">16.3B</div>
+                            <div class="mock-td green">+7.3%</div><div class="mock-td">4.5%</div><div class="mock-td green">3.8x</div>
+                            <div class="mock-td">18.7M</div><div class="mock-td">3.2%</div>
                         </div>
                         <div class="mock-table-row">
-                            <div class="mock-td bright">XLK</div>
-                            <div class="mock-td"><span style="color:var(--text-secondary)">Technology Select</span> <span class="mock-tag" style="background:rgba(139,92,246,0.1);color:#a78bfa;border-color:rgba(139,92,246,0.12)">tech</span></div>
-                            <div class="mock-td green">+1.24%</div><div class="mock-td green">+3.05%</div><div class="mock-td green">+5.88%</div>
-                            <div class="mock-td green">+1.42%</div><div class="mock-td green">+22.1%</div>
+                            <div class="mock-td bright">CAVA</div>
+                            <div class="mock-td">14.9B</div>
+                            <div class="mock-td green">+6.1%</div><div class="mock-td">5.3%</div><div class="mock-td green">2.9x</div>
+                            <div class="mock-td">92.5M</div><div class="mock-td">5.7%</div>
                         </div>
                     </div>
                 </div>
             </div>
             <div class="themes-text">
-                <h3>Find the leading themes</h3>
-                <p>Before you pick stocks, know which sectors are moving. The Themes scanner ranks non-leveraged ETFs by performance across daily, weekly, monthly, YTD, and 52-week timeframes.</p>
-                <p>Each ETF is tagged by sector — semiconductors, energy, gold miners, shipping, biotech, and more. Sort by any column to find what's leading. Filter by AUM and volume to focus on liquid names.</p>
-                <p>Hover any ticker for a weekly chart preview. Click to load a full ETF dashboard with holdings breakdown.</p>
+                <h3>Four scanners built in.</h3>
+                <p>Movers, Stock Themes, Theme ETFs, and Industry Relative Strength — all with hover chart previews and sortable columns.</p>
+                <p>Find what's moving right now, which sectors are leading, and where rotation is happening before it shows up in price.</p>
             </div>
         </div>
     </div>

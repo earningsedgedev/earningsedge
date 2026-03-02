@@ -10,35 +10,45 @@ A Chrome extension that replaces ten browser tabs with one fast dashboard. Built
 
 ## What You Get
 
-### Stock Dashboard (8 tabs)
+### Stock Dashboard (7 tabs)
 Search any US stock ticker and get instant access to:
 
-- **Earnings** — 8 historical quarters + 4 forward estimates. Annual data: 5+ years + 4 forward. EPS, Revenue, %Change, %Surprise — all color-coded.
-- **Analysts** — Consensus card (buy/hold/sell breakdown, price targets) + detailed ratings table with analyst names, firms, and actions.
-- **Insiders** — Transaction table with cost basis, value, and position % calculations.
-- **Short Interest** — Summary card + biweekly history (~24 data points, 1 year). Shares short, change, % of float, days to cover.
-- **Funds** — Institutional ownership %, accumulation/distribution signal, net inflow, and top 15 recent filings.
-- **Chart** — TradingView interactive chart.
+- **Earnings** — Side-by-side layout: TradingView chart (left, 55%) + earnings data (right, 45%). Chart loads eagerly at search. Quarterly: 8 historical + 4 forward estimates. Annual: 5+ years + 4 forward. EPS, Revenue, %Change, %Surprise — all color-coded.
 - **News** — Aggregated from multiple sources. Sortable by date, filterable by source.
+- **Analysts** — Consensus card (buy/hold/sell breakdown, price targets) + detailed ratings table merging data from multiple sources. Analyst names, firms, actions, and price targets.
+- **Insiders** — Corporate insider transactions with cost basis, value, position %, and SEC filing links. Includes congressional/politician trades (tagged with party affiliation and state).
+- **Funds** — Institutional ownership %, accumulation/distribution signal, net inflow, and top 15 recent filings.
+- **Short Interest** — Summary card + biweekly history (~24 data points, 1 year). Shares short, change, % of float, days to cover.
+- **Analysis** — In-depth articles, earnings call transcripts, and press releases.
+
+**Key stats bar** — 7×2 grid: Price, Mkt Cap, P/E, P/S, Avg Vol, Rel Vol, 52W High | Earnings, ADR%(20), Float, Short Float, Days to Cover, Inst Own, Perf YTD. ADR% uses Qullamaggie's formula. 52W High color-coded green when within 10% (Minervini zone).
+
+**Optional Chart tab** — Setting in ⚙️ (default OFF). When enabled, adds a separate full-width Chart tab while the Earnings tab reverts to a side-by-side Quarterly/Annual layout.
 
 ### ETF Dashboard (4 tabs)
 Search an ETF ticker (SMH, XLK, GDX, etc.) and EarningsEdge auto-detects it:
 
-- **Overview** — Performance across 9 timeframes (Daily through 5Y). Top 15 holdings with weight % and price changes. Click any holding to load its stock dashboard. Hover for chart preview.
-- **Chart** — TradingView interactive chart.
+- **Overview** — Performance across 9 timeframes (Daily through 5Y) + TradingView chart.
+- **Holdings** — Top 15 holdings with weight %, daily/weekly/monthly price changes. Click any holding to load its stock dashboard. Hover for chart preview.
 - **News** — Aggregated news for the ETF.
-- **Seeking Alpha** — News and analysis articles.
+- **Analysis** — News and analysis articles.
 
 Key stats bar: AUM, Expense Ratio, Dividend Yield, Holdings count.
 
-### Scans
-- **Themes** — ETF theme scanner. Top-performing non-leveraged ETFs across 5 timeframes, tagged by sector (semiconductors, energy, gold miners, shipping, etc.). Sortable, filterable by AUM, volume, and tags. Great for finding what's working in the market right now.
+### Scanners
+- **Movers** — Biggest gainers and losers across three sessions: Pre-Market, Market Hours, After-Hours. 200 tickers per direction. Columns include Mkt Cap, Chg%, ADR%, Volume, Float, Short%, Days to Cover, and News links. Earnings date badges for tickers reporting yesterday/today/tomorrow. Filterable by market cap, volume, change %, and ADR%.
+- **Stock Themes** — 40 themes, 268 sub-themes. Two views: Themes (grouped, collapsible) and Sub-themes (flat sortable). 8 timeframes. Expandable sub-themes show individual ticker performance.
+- **Theme ETFs** — Top-performing non-leveraged ETFs across 5 timeframes. Tagged by sector (semiconductors, energy, gold miners, shipping, etc.). Sortable, filterable by AUM, volume, and tags.
+- **Industry RS** — Sector and industry relative strength rankings. Two views: Sectors (grouped with expandable industries) and Industries (flat sortable). RS score badges, breadth bars, trend arrows, and leader tickers. Hover chart on tickers.
+
+### Earnings Calendar
+Weekly view with BMO/AMC grouping, market cap filter, ADR% column, and sortable columns. Adaptive price column: PM Chg% (pre-market), Chg% (market hours), AH Chg% (after-hours) — auto-detected by session. Hover any ticker for a chart preview. Lazy per-day loading for fast open times.
 
 ### Other Features
-- **Earnings Calendar** — Weekly view with BMO/AMC grouping, market cap filter, sortable columns.
-- **Hover Chart Preview** — Hover any ticker in Calendar, Themes, or ETF Holdings to see a weekly candlestick chart (2 years) with volume and EMAs. Three size options.
-- **Keyboard shortcuts** — Space/⌘K to search, 1-8 for tabs, Ctrl+R to refresh, C for calendar.
-- **3 density modes** — Compact (default), Normal, Large.
+- **Command Palette** — ⌘K / Space / click search bar to open. Autocomplete for US tickers, recent searches with relative time, navigation to Calendar/Movers/Themes/Sector RS. Keyboard-driven: ↑↓ to navigate, Enter to select, Esc to close.
+- **Hover Chart Preview** — Hover any ticker in Calendar, Themes, Industry RS, ETF Holdings, Theme ETFs, or Movers to see a weekly candlestick chart (2 years) with volume and EMAs. Three size options.
+- **Keyboard shortcuts** — Space/⌘K for command palette, 1-7 for stock tabs (1-4 for ETF tabs), Ctrl+R to refresh.
+- **2 density modes** — Compact (default) and Normal.
 - **4 date formats** — ISO, US, EU, US Written.
 - No API keys required. No account needed. Install and go.
 
@@ -91,14 +101,12 @@ This removes the extension and all stored data (cache, settings). You can also d
 
 | Shortcut | Action |
 |----------|--------|
-| **Space** | Focus search bar |
-| **⌘K / Ctrl+K** | Focus and select search bar |
-| **1–8** | Switch stock tabs (1–4 for ETF tabs) |
-| **Ctrl+R / ⌘R** | Force refresh current view |
-| **C** | Open earnings calendar |
-| **Escape** | Close settings / unfocus search |
+| **Space** / **⌘K** | Open command palette |
+| **1–7** | Switch stock tabs (1–4 for ETF tabs) |
+| **Ctrl+R** / **⌘R** | Force refresh current view |
+| **Escape** | Close palette / settings |
 
-Number keys only work when the search bar is not focused.
+Number keys only work when the command palette is not open.
 
 ---
 
