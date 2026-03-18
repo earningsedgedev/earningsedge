@@ -2,20 +2,18 @@
 <html>
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Chart</title>
-<style>body{margin:0;background:#0e0e10;overflow:hidden}.tradingview-widget-container{width:100%;height:100vh}</style>
+<style>html,body{margin:0;padding:0;width:100%;height:100%;background:#0e0e10;overflow:hidden}.tradingview-widget-container{width:100%;height:100%}</style>
 </head>
 <body>
-<div class="tradingview-widget-container">
-  <div class="tradingview-widget-container__widget" style="width:100%;height:100%"></div>
-</div>
 <script>
 var p = new URLSearchParams(window.location.search);
-var config = {
+var sym = p.get('symbol') || 'AAPL';
+var intv = p.get('interval') || 'D';
+var cfg = JSON.stringify({
   autosize: true,
-  symbol: p.get('symbol') || 'AAPL',
-  interval: p.get('interval') || 'D',
+  symbol: sym,
+  interval: intv,
   timezone: 'Etc/UTC',
   theme: 'dark',
   style: '1',
@@ -30,14 +28,15 @@ var config = {
     {id:'MASimple@tv-basicstudies', inputs:{length:50}, styles:{Plot:{color:'#26a69a'}}}
   ],
   support_host: 'https://www.tradingview.com'
-};
-var container = document.querySelector('.tradingview-widget-container');
-var script = document.createElement('script');
-script.type = 'text/javascript';
-script.src = 'https://s3.tradingview.com/external-embedding/embed-widget-advanced-chart.js';
-script.async = true;
-script.textContent = JSON.stringify(config);
-container.appendChild(script);
+});
+document.write(
+  '<div class="tradingview-widget-container" style="width:100%;height:100%">' +
+  '<div class="tradingview-widget-container__widget" style="width:100%;height:100%"></div>' +
+  '<script type="text/javascript" src="https://s3.tradingview.com/external-embedding/embed-widget-advanced-chart.js" async>' +
+  cfg +
+  '<\/script>' +
+  '</div>'
+);
 </script>
 </body>
 </html>
