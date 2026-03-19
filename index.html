@@ -4,25 +4,26 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>EarningsEdge — Earnings Dashboard for Momentum Traders</title>
-    <meta name="description" content="Chrome extension for momentum swing traders. Research episodic pivots, earnings breakouts, and catalyst-driven moves. Built for Qullamaggie and Stockbee style trading.">
-    <meta name="keywords" content="earnings dashboard, episodic pivots, momentum trading, swing trading, earnings breakouts, chrome extension, stock earnings, analyst ratings, insider transactions, Qullamaggie, Stockbee, Minervini, earnings calendar, EPS surprises, revenue growth, catalyst trading, stock screener, market movers, relative strength, sector rotation, ETF scanner">
+    <meta name="description" content="Free Chrome extension for Qullamaggie and Stockbee-style momentum traders. Scan pre-market gappers, research earnings surprises, and find episodic pivots — one dashboard.">
+    <meta name="keywords" content="earnings dashboard, episodic pivot, episodic pivot scanner, momentum burst, Qullamaggie, Stockbee, pre-market gappers, earnings breakout, earnings surprise screener, earnings gap, power earnings gap, momentum swing trading, ADR, relative volume, relative strength, chrome extension, stock screener, earnings calendar, market movers, sector rotation, catalyst trading, EPS surprise, revenue growth, ETF scanner">
     <meta name="author" content="EarningsEdge">
     <meta name="robots" content="index, follow">
     <link rel="canonical" href="https://earningsedgedev.github.io/earningsedge/">
 
-    <!-- Open Graph (Facebook, LinkedIn, Discord, etc.) -->
     <meta property="og:type" content="website">
     <meta property="og:title" content="EarningsEdge — Earnings Dashboard for Momentum Traders">
-    <meta property="og:description" content="Chrome extension for momentum swing traders. Research episodic pivots, earnings breakouts, and catalyst-driven moves in one dashboard.">
+    <meta property="og:description" content="Free Chrome extension for momentum traders. Scan pre-market gappers, research earnings surprises, and find episodic pivots — one dashboard.">
     <meta property="og:url" content="https://earningsedgedev.github.io/earningsedge/">
     <meta property="og:site_name" content="EarningsEdge">
+    <meta property="og:image" content="https://earningsedgedev.github.io/earningsedge/images/og-image.jpg">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
 
-    <!-- Twitter Card -->
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" content="EarningsEdge — Earnings Dashboard for Momentum Traders">
-    <meta name="twitter:description" content="Chrome extension for momentum swing traders. Research episodic pivots, earnings breakouts, and catalyst-driven moves.">
+    <meta name="twitter:description" content="Free Chrome extension for momentum traders. Scan pre-market gappers, research earnings surprises, and find episodic pivots — one dashboard.">
+    <meta name="twitter:image" content="https://earningsedgedev.github.io/earningsedge/images/og-image.jpg">
 
-    <!-- Structured Data (Google Rich Results) -->
     <script type="application/ld+json">
     {
         "@context": "https://schema.org",
@@ -30,21 +31,13 @@
         "name": "EarningsEdge",
         "operatingSystem": "Chrome",
         "applicationCategory": "FinanceApplication",
-        "description": "Earnings dashboard Chrome extension for momentum swing traders. Research episodic pivots, earnings breakouts, and catalyst-driven moves.",
+        "description": "Free Chrome extension for Qullamaggie and Stockbee-style momentum traders. Scan pre-market gappers, research earnings surprises, and find episodic pivots.",
         "url": "https://earningsedgedev.github.io/earningsedge/",
-        "author": {
-            "@type": "Person",
-            "name": "EarningsEdge"
-        },
-        "offers": {
-            "@type": "Offer",
-            "price": "0",
-            "priceCurrency": "USD"
-        }
+        "author": { "@type": "Organization", "name": "EarningsEdge" },
+        "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" }
     }
     </script>
 
-    <!-- Google Analytics 4 -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-G9KWF4DSSG"></script>
     <script>
         window.dataLayer = window.dataLayer || [];
@@ -55,1064 +48,244 @@
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
     <style>
         *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
-
         :root {
-            --bg-primary: #0a0a0a;
-            --bg-secondary: #111111;
-            --bg-card: #161616;
-            --bg-card-hover: #1a1a1a;
-            --border: #222222;
-            --border-secondary: #2d2d2d;
-            --text-primary: #ffffff;
-            --text-secondary: #888888;
-            --text-muted: #555555;
-            --accent: #10b981;
-            --accent-hover: #34d399;
-            --accent-dark: #064e3b;
-            --accent-glow: rgba(16, 185, 129, 0.12);
-            --green: #10b981;
-            --red: #ff1744;
+            --bg: #0a0a0a; --bg-secondary: #111111; --bg-tertiary: #161616;
+            --text: #ffffff; --text-secondary: #888888; --text-tertiary: #555555;
+            --primary: #10b981; --primary-hover: #0ea472; --border: #222222;
         }
-
         html { scroll-behavior: smooth; }
+        body { font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif; background: var(--bg); color: var(--text); line-height: 1.6; -webkit-font-smoothing: antialiased; }
+
+        nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; background: rgba(10,10,10,0.85); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); border-bottom: 1px solid var(--border); padding: 0 24px; height: 56px; display: flex; align-items: center; justify-content: space-between; }
+        .nav-logo { font-size: 15px; font-weight: 700; color: var(--primary); text-decoration: none; letter-spacing: -0.3px; }
+        .nav-links { display: flex; align-items: center; gap: 24px; }
+        .nav-links a { color: var(--text-secondary); text-decoration: none; font-size: 13px; font-weight: 500; transition: color 0.15s; }
+        .nav-links a:hover { color: var(--text); }
+        .nav-cta { background: var(--primary) !important; color: var(--bg) !important; padding: 6px 14px; border-radius: 6px; font-weight: 600 !important; transition: background 0.15s; }
+        .nav-cta:hover { background: var(--primary-hover) !important; }
+
+        .hero { padding: 120px 24px 40px; max-width: 800px; margin: 0 auto; text-align: center; }
+        .hero h1 { font-size: clamp(32px, 5vw, 52px); font-weight: 700; letter-spacing: -1.5px; line-height: 1.1; margin-bottom: 16px; }
+        .hero p { font-size: clamp(16px, 2vw, 18px); color: var(--text-secondary); max-width: 580px; margin: 0 auto 32px; line-height: 1.5; }
+        .hero-buttons { display: flex; align-items: center; justify-content: center; gap: 16px; margin-bottom: 12px; }
+        .btn-primary { display: inline-flex; align-items: center; gap: 8px; background: var(--primary); color: var(--bg); padding: 12px 28px; border-radius: 8px; font-size: 16px; font-weight: 600; text-decoration: none; transition: background 0.15s, transform 0.1s; }
+        .btn-primary:hover { background: var(--primary-hover); transform: translateY(-1px); }
+        .btn-secondary { display: inline-flex; align-items: center; gap: 8px; color: var(--text-secondary); padding: 12px 28px; border-radius: 8px; font-size: 16px; font-weight: 500; text-decoration: none; border: 1px solid var(--border); transition: color 0.15s, border-color 0.15s; }
+        .btn-secondary:hover { color: var(--text); border-color: var(--text-tertiary); }
+        .hero-sub { font-size: 13px; color: var(--text-tertiary); margin-top: 16px; }
+
+        .gallery { max-width: 1200px; margin: 48px auto 0; padding: 0 24px; }
+        .gallery-container { position: relative; border-radius: 12px; border: 1px solid var(--border); overflow: hidden; box-shadow: 0 24px 80px rgba(0,0,0,0.5); }
+        .gallery-track { display: flex; transition: transform 0.4s cubic-bezier(0.25, 0.1, 0.25, 1); }
+        .gallery-slide { min-width: 100%; }
+        .gallery-slide img { width: 100%; display: block; }
+        .gallery-arrow { position: absolute; top: 50%; transform: translateY(-50%); width: 44px; height: 44px; border-radius: 50%; background: rgba(10,10,10,0.7); border: 1px solid var(--border); color: var(--text); font-size: 18px; display: flex; align-items: center; justify-content: center; cursor: pointer; z-index: 2; transition: background 0.15s, border-color 0.15s; backdrop-filter: blur(8px); }
+        .gallery-arrow:hover { background: rgba(16,185,129,0.15); border-color: var(--primary); }
+        .gallery-arrow.prev { left: 16px; }
+        .gallery-arrow.next { right: 16px; }
+        .gallery-caption { text-align: center; padding: 20px 24px 4px; }
+        .gallery-caption-text { font-size: 15px; color: var(--text-secondary); min-height: 24px; }
+        .gallery-dots { display: flex; justify-content: center; gap: 8px; padding: 16px 0 0; }
+        .gallery-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--text-tertiary); cursor: pointer; border: none; padding: 0; transition: background 0.2s, transform 0.2s; }
+        .gallery-dot.active { background: var(--primary); transform: scale(1.25); }
+        .gallery-dot:hover:not(.active) { background: var(--text-secondary); }
+
+        .value-strip { display: flex; justify-content: center; gap: 48px; flex-wrap: wrap; padding: 72px 24px; max-width: 900px; margin: 0 auto; border-bottom: 1px solid var(--border); }
+        .value-item { text-align: center; }
+        .value-item .value { font-size: 28px; font-weight: 700; color: var(--primary); letter-spacing: -0.5px; }
+        .value-item .label { font-size: 13px; color: var(--text-secondary); margin-top: 4px; }
+
+        .features { max-width: 900px; margin: 0 auto; padding: 72px 24px; display: grid; grid-template-columns: 1fr 1fr; gap: 40px 56px; }
+        .feat h3 { font-size: 16px; font-weight: 600; margin-bottom: 6px; }
+        .feat p { font-size: 14px; color: var(--text-secondary); line-height: 1.55; }
+
+        .competitive { text-align: center; padding: 64px 24px; max-width: 700px; margin: 0 auto; border-top: 1px solid var(--border); }
+        .competitive h2 { font-size: 28px; font-weight: 700; letter-spacing: -0.5px; margin-bottom: 20px; }
+        .comp-grid { display: flex; justify-content: center; gap: 40px; flex-wrap: wrap; margin-bottom: 16px; }
+        .comp-item { font-size: 15px; color: var(--text-secondary); }
+        .comp-item span { color: var(--primary); font-weight: 600; }
+        .competitive .byline { font-size: 14px; color: var(--text-tertiary); margin-top: 20px; }
+
+        .install { max-width: 800px; margin: 0 auto; padding: 64px 24px; text-align: center; border-top: 1px solid var(--border); }
+        .install h2 { font-size: 28px; font-weight: 700; margin-bottom: 40px; letter-spacing: -0.5px; }
+        .steps { display: flex; gap: 32px; justify-content: center; flex-wrap: wrap; }
+        .step { flex: 1; min-width: 200px; max-width: 240px; text-align: center; }
+        .step-num { width: 36px; height: 36px; border-radius: 8px; background: var(--bg-tertiary); border: 1px solid var(--border); color: var(--primary); font-weight: 700; font-size: 15px; display: inline-flex; align-items: center; justify-content: center; margin-bottom: 12px; }
+        .step h3 { font-size: 15px; font-weight: 600; margin-bottom: 6px; }
+        .step p { font-size: 13px; color: var(--text-secondary); line-height: 1.5; }
+        .step a { color: var(--primary); }
+        .step code { color: var(--primary); background: var(--bg-tertiary); padding: 2px 6px; border-radius: 4px; font-size: 12px; }
+        .install .btn-primary { margin-top: 40px; }
+
+        footer { border-top: 1px solid var(--border); padding: 32px 24px; text-align: center; }
+        .footer-links { display: flex; justify-content: center; gap: 24px; margin-bottom: 12px; }
+        .footer-links a { color: var(--text-tertiary); text-decoration: none; font-size: 13px; transition: color 0.15s; }
+        .footer-links a:hover { color: var(--text-secondary); }
+        footer .copy { font-size: 12px; color: var(--text-tertiary); }
 
-        body {
-            font-family: 'DM Sans', sans-serif;
-            background: var(--bg-primary);
-            color: var(--text-primary);
-            line-height: 1.6;
-            overflow-x: hidden;
-        }
-
-        body::before {
-            content: '';
-            position: fixed;
-            inset: 0;
-            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.03'/%3E%3C/svg%3E");
-            pointer-events: none;
-            z-index: 9999;
-        }
-
-        .glow-bg {
-            position: fixed;
-            top: -200px;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 800px;
-            height: 600px;
-            background: radial-gradient(ellipse, rgba(16, 185, 129, 0.06) 0%, transparent 70%);
-            pointer-events: none;
-            z-index: 0;
-        }
-
-        .container {
-            max-width: 1080px;
-            margin: 0 auto;
-            padding: 0 24px;
-            position: relative;
-            z-index: 1;
-        }
-
-        /* === NAV === */
-        nav {
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            z-index: 100;
-            padding: 16px 0;
-            background: rgba(10, 10, 10, 0.88);
-            backdrop-filter: blur(20px);
-            border-bottom: 1px solid var(--border);
-        }
-
-        nav .container {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-        }
-
-        .logo {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            text-decoration: none;
-        }
-
-        .logo-icon {
-            width: 32px;
-            height: 32px;
-            background: linear-gradient(135deg, var(--accent), var(--accent-hover));
-            border-radius: 8px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-family: 'JetBrains Mono', monospace;
-            font-weight: 700;
-            font-size: 16px;
-            color: #fff;
-        }
-
-        .logo-text {
-            font-size: 18px;
-            font-weight: 700;
-            color: var(--text-primary);
-            letter-spacing: -0.02em;
-        }
-
-        .logo-text span { color: var(--accent); }
-
-        .nav-links {
-            display: flex;
-            gap: 32px;
-            align-items: center;
-        }
-
-        .nav-links a {
-            color: var(--text-secondary);
-            text-decoration: none;
-            font-size: 14px;
-            font-weight: 500;
-            transition: color 0.2s;
-        }
-
-        .nav-links a:hover { color: var(--text-primary); }
-
-        .nav-cta {
-            background: var(--accent) !important;
-            color: #fff !important;
-            padding: 8px 20px;
-            border-radius: 8px;
-            font-weight: 600 !important;
-            transition: all 0.2s !important;
-        }
-
-        .nav-cta:hover {
-            background: var(--accent-hover) !important;
-            transform: translateY(-1px);
-        }
-
-        /* === HERO === */
-        .hero {
-            padding: 160px 0 80px;
-            text-align: center;
-        }
-
-        .badge {
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            padding: 6px 16px;
-            background: var(--accent-glow);
-            border: 1px solid rgba(16, 185, 129, 0.2);
-            border-radius: 100px;
-            font-size: 13px;
-            font-weight: 500;
-            color: var(--accent);
-            margin-bottom: 28px;
-            animation: fadeInUp 0.6s ease both;
-        }
-
-        .badge::before {
-            content: '';
-            width: 6px;
-            height: 6px;
-            background: var(--green);
-            border-radius: 50%;
-            animation: pulse-dot 2s infinite;
-        }
-
-        @keyframes pulse-dot {
-            0%, 100% { opacity: 1; }
-            50% { opacity: 0.4; }
-        }
-
-        h1 {
-            font-size: clamp(40px, 5.5vw, 64px);
-            font-weight: 700;
-            line-height: 1.1;
-            letter-spacing: -0.03em;
-            margin-bottom: 24px;
-            animation: fadeInUp 0.6s ease 0.1s both;
-        }
-
-        h1 .gradient {
-            background: linear-gradient(135deg, #10b981, #34d399, #6ee7b7);
-            -webkit-background-clip: text;
-            background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
-
-        .hero-sub {
-            font-size: 18px;
-            color: var(--text-secondary);
-            max-width: 600px;
-            margin: 0 auto 40px;
-            line-height: 1.7;
-            animation: fadeInUp 0.6s ease 0.2s both;
-        }
-
-        .hero-actions {
-            display: flex;
-            gap: 16px;
-            justify-content: center;
-            flex-wrap: wrap;
-            animation: fadeInUp 0.6s ease 0.3s both;
-        }
-
-        .btn {
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            padding: 14px 28px;
-            border-radius: 10px;
-            font-size: 15px;
-            font-weight: 600;
-            text-decoration: none;
-            transition: all 0.25s;
-            cursor: pointer;
-            border: none;
-        }
-
-        .btn-primary {
-            background: var(--accent);
-            color: #fff;
-            box-shadow: 0 0 24px rgba(16, 185, 129, 0.2);
-        }
-
-        .btn-primary:hover {
-            background: var(--accent-hover);
-            transform: translateY(-2px);
-            box-shadow: 0 0 32px rgba(16, 185, 129, 0.3);
-        }
-
-        .btn-secondary {
-            background: var(--bg-card);
-            color: var(--text-primary);
-            border: 1px solid var(--border);
-        }
-
-        .btn-secondary:hover {
-            background: var(--bg-card-hover);
-            border-color: var(--text-muted);
-            transform: translateY(-2px);
-        }
-
-        /* === SCREENSHOT MOCK === */
-        .screenshot-section {
-            padding: 40px 0 100px;
-            animation: fadeInUp 0.8s ease 0.4s both;
-        }
-
-        .screenshot-wrapper {
-            position: relative;
-            border-radius: 16px;
-            overflow: hidden;
-            border: 1px solid var(--border);
-            box-shadow: 0 0 0 1px rgba(255,255,255,0.02), 0 24px 80px rgba(0,0,0,0.6), 0 0 120px rgba(16,185,129,0.04);
-        }
-
-        .mock-dashboard {
-            width: 100%;
-            aspect-ratio: 16/9.5;
-            background: var(--bg-secondary);
-            overflow: hidden;
-            padding: 20px;
-        }
-
-        .mock-topbar { display: flex; align-items: center; gap: 12px; margin-bottom: 16px; }
-
-        .mock-search {
-            flex: 1;
-            max-width: 320px;
-            height: 36px;
-            background: var(--bg-card);
-            border: 1px solid var(--border);
-            border-radius: 8px;
-            display: flex;
-            align-items: center;
-            padding: 0 12px;
-            gap: 8px;
-        }
-
-        .mock-search-icon {
-            width: 14px;
-            height: 14px;
-            border: 2px solid var(--text-muted);
-            border-radius: 50%;
-            position: relative;
-        }
-
-        .mock-search-icon::after {
-            content: '';
-            position: absolute;
-            bottom: -4px;
-            right: -4px;
-            width: 6px;
-            height: 2px;
-            background: var(--text-muted);
-            transform: rotate(45deg);
-        }
-
-        .mock-search-text {
-            font-family: 'JetBrains Mono', monospace;
-            font-size: 13px;
-            color: var(--accent);
-            font-weight: 500;
-        }
-
-        .mock-ticker-info { display: flex; align-items: baseline; gap: 16px; margin-bottom: 4px; }
-
-        .mock-ticker {
-            font-family: 'JetBrains Mono', monospace;
-            font-size: 22px;
-            font-weight: 700;
-            color: var(--text-primary);
-        }
-
-        .mock-company { font-size: 14px; color: var(--text-secondary); }
-
-        .mock-price-row { display: flex; gap: 16px; align-items: baseline; margin-bottom: 16px; }
-
-        .mock-price {
-            font-family: 'JetBrains Mono', monospace;
-            font-size: 18px;
-            font-weight: 600;
-            color: var(--text-primary);
-        }
-
-        .mock-change {
-            font-family: 'JetBrains Mono', monospace;
-            font-size: 13px;
-            color: var(--green);
-            font-weight: 500;
-        }
-
-        .mock-tabs {
-            display: flex;
-            gap: 2px;
-            margin-bottom: 16px;
-            border-bottom: 1px solid var(--border);
-        }
-
-        .mock-tab {
-            padding: 8px 16px;
-            font-size: 12px;
-            font-weight: 500;
-            color: var(--text-muted);
-            border-bottom: 2px solid transparent;
-            margin-bottom: -1px;
-        }
-
-        .mock-tab.active { color: var(--accent); border-bottom-color: var(--accent); }
-
-        .mock-table { width: 100%; }
-
-        .mock-table-header {
-            display: grid;
-            grid-template-columns: 100px repeat(6, 1fr);
-            gap: 1px;
-            margin-bottom: 4px;
-            padding: 6px 8px;
-        }
-
-        .mock-th {
-            font-size: 10px;
-            font-weight: 600;
-            color: var(--text-muted);
-            text-transform: uppercase;
-            letter-spacing: 0.05em;
-            font-family: 'JetBrains Mono', monospace;
-        }
-
-        .mock-table-row {
-            display: grid;
-            grid-template-columns: 100px repeat(6, 1fr);
-            gap: 1px;
-            padding: 7px 8px;
-            border-radius: 4px;
-        }
-
-        .mock-table-row:nth-child(even) { background: rgba(255,255,255,0.015); }
-
-        .mock-td {
-            font-size: 12px;
-            font-family: 'JetBrains Mono', monospace;
-            color: var(--text-secondary);
-        }
-
-        .mock-td.green { color: var(--green); }
-        .mock-td.red { color: var(--red); }
-        .mock-td.bright { color: var(--text-primary); }
-
-        /* === BUILT FOR SECTION === */
-        .built-for {
-            padding: 80px 0;
-        }
-
-        .built-for-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 60px;
-            align-items: center;
-            margin-top: 48px;
-        }
-
-        .built-for-text h3 {
-            font-size: 22px;
-            font-weight: 700;
-            margin-bottom: 16px;
-            letter-spacing: -0.02em;
-        }
-
-        .built-for-text p {
-            color: var(--text-secondary);
-            font-size: 15px;
-            line-height: 1.7;
-            margin-bottom: 16px;
-        }
-
-        .trading-tags {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 8px;
-            margin-top: 24px;
-        }
-
-        .trading-tag {
-            padding: 6px 14px;
-            background: var(--accent-glow);
-            border: 1px solid rgba(16, 185, 129, 0.15);
-            border-radius: 100px;
-            font-size: 13px;
-            font-weight: 500;
-            color: var(--accent);
-        }
-
-        .checklist {
-            list-style: none;
-            display: flex;
-            flex-direction: column;
-            gap: 16px;
-        }
-
-        .checklist li {
-            display: flex;
-            gap: 12px;
-            align-items: flex-start;
-            font-size: 15px;
-            color: var(--text-secondary);
-            line-height: 1.6;
-        }
-
-        .checklist li .check {
-            flex-shrink: 0;
-            width: 22px;
-            height: 22px;
-            border-radius: 50%;
-            background: var(--accent-glow);
-            border: 1px solid rgba(16, 185, 129, 0.2);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 12px;
-            color: var(--accent);
-            margin-top: 2px;
-        }
-
-        /* === FEATURES === */
-        .features { padding: 80px 0; }
-
-        .section-label {
-            font-size: 13px;
-            font-weight: 600;
-            text-transform: uppercase;
-            letter-spacing: 0.1em;
-            color: var(--accent);
-            margin-bottom: 12px;
-        }
-
-        .section-title {
-            font-size: clamp(28px, 3.5vw, 40px);
-            font-weight: 700;
-            letter-spacing: -0.02em;
-            margin-bottom: 16px;
-        }
-
-        .section-desc {
-            color: var(--text-secondary);
-            font-size: 16px;
-            max-width: 560px;
-            margin-bottom: 56px;
-        }
-
-        .features-grid {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 20px;
-        }
-
-        .feature-card {
-            background: var(--bg-card);
-            border: 1px solid var(--border);
-            border-radius: 14px;
-            padding: 28px;
-            transition: all 0.3s;
-        }
-
-        .feature-card:hover {
-            background: var(--bg-card-hover);
-            border-color: rgba(16, 185, 129, 0.15);
-            transform: translateY(-4px);
-            box-shadow: 0 12px 40px rgba(0,0,0,0.3);
-        }
-
-        .feature-icon {
-            width: 44px;
-            height: 44px;
-            border-radius: 10px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 20px;
-            margin-bottom: 18px;
-            background: var(--accent-glow);
-        }
-
-        .feature-card h3 { font-size: 16px; font-weight: 600; margin-bottom: 8px; }
-        .feature-card p { font-size: 14px; color: var(--text-secondary); line-height: 1.6; }
-
-        /* === HOW IT WORKS === */
-        .how-it-works { padding: 80px 0; }
-
-        .steps {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 32px;
-            margin-top: 56px;
-        }
-
-        .step { text-align: center; }
-
-        .step-number {
-            width: 48px;
-            height: 48px;
-            border-radius: 50%;
-            background: var(--accent-glow);
-            border: 1px solid rgba(16, 185, 129, 0.2);
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            font-family: 'JetBrains Mono', monospace;
-            font-size: 18px;
-            font-weight: 700;
-            color: var(--accent);
-            margin-bottom: 20px;
-        }
-
-        .step h3 { font-size: 16px; font-weight: 600; margin-bottom: 8px; }
-        .step p { font-size: 14px; color: var(--text-secondary); line-height: 1.6; }
-
-        /* === SUPPORT === */
-        .support { padding: 100px 0; text-align: center; }
-
-        .support-card {
-            background: var(--bg-card);
-            border: 1px solid var(--border);
-            border-radius: 20px;
-            padding: 56px 40px;
-            max-width: 600px;
-            margin: 0 auto;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .support-card::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            height: 1px;
-            background: linear-gradient(90deg, transparent, var(--accent), transparent);
-        }
-
-        .support-card h2 { font-size: 28px; font-weight: 700; letter-spacing: -0.02em; margin-bottom: 12px; }
-        .support-card p { color: var(--text-secondary); font-size: 15px; margin-bottom: 32px; line-height: 1.7; }
-
-        .kofi-btn {
-            display: inline-flex;
-            align-items: center;
-            gap: 10px;
-            padding: 14px 32px;
-            background: var(--accent);
-            color: #fff;
-            border-radius: 10px;
-            font-size: 15px;
-            font-weight: 600;
-            text-decoration: none;
-            transition: all 0.25s;
-        }
-
-        .kofi-btn:hover {
-            background: var(--accent-hover);
-            transform: translateY(-2px);
-            box-shadow: 0 8px 24px rgba(16, 185, 129, 0.2);
-        }
-
-        /* === FOOTER === */
-        footer {
-            padding: 40px 0;
-            border-top: 1px solid var(--border);
-            text-align: center;
-        }
-
-        footer p { font-size: 13px; color: var(--text-muted); }
-        footer a { color: var(--text-secondary); text-decoration: none; }
-        footer a:hover { color: var(--text-primary); }
-
-        /* === THEMES SCANNER === */
-        .themes-section { padding: 100px 0; }
-        .themes-layout { display: grid; grid-template-columns: 1.15fr 1fr; gap: 56px; margin-top: 56px; align-items: start; }
-        .themes-text h3 { font-size: 24px; font-weight: 700; margin-bottom: 16px; }
-        .themes-text p { font-size: 16px; color: var(--text-secondary); line-height: 1.7; margin-bottom: 16px; }
-
-        .themes-mock {
-            border-radius: 16px; overflow: hidden;
-            border: 1px solid var(--border);
-            box-shadow: 0 0 0 1px rgba(255,255,255,0.02), 0 24px 80px rgba(0,0,0,0.6);
-            background: var(--bg-secondary);
-        }
-        .themes-mock .mock-body { padding: 20px; }
-        .themes-mock .mock-table-header, .themes-mock .mock-table-row {
-            display: grid; gap: 1px; padding: 6px 8px;
-            grid-template-columns: 60px repeat(6, 1fr);
-        }
-        .themes-mock .mock-table-row { border-bottom: 1px solid rgba(34, 34, 34, 0.6); }
-        .themes-mock .mock-table-row:last-child { border-bottom: none; }
-
-        .mock-tag {
-            display: inline-block; padding: 2px 7px; border-radius: 4px; font-size: 9px; font-weight: 500;
-            background: rgba(234, 179, 8, 0.1); color: #eab308; border: 1px solid rgba(234, 179, 8, 0.12);
-        }
-        .mock-filter-row { display: flex; gap: 8px; margin-bottom: 14px; flex-wrap: wrap; }
-        .mock-filter {
-            padding: 5px 12px; border-radius: 6px; font-size: 11px; font-weight: 500;
-            background: var(--bg-card); border: 1px solid var(--border); color: var(--text-secondary);
-        }
-        .mock-filter.active { border-color: var(--accent); color: var(--accent); background: var(--accent-glow); }
-
-        /* === ANIMATIONS === */
-        @keyframes fadeInUp {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        .fade-in { opacity: 0; transform: translateY(20px); transition: all 0.6s ease; }
-        .fade-in.visible { opacity: 1; transform: translateY(0); }
-
-        /* === RESPONSIVE === */
-        @media (max-width: 900px) {
-            .features-grid { grid-template-columns: repeat(2, 1fr); }
-            .themes-layout { grid-template-columns: 1fr; gap: 40px; }
-            .themes-layout > :first-child { order: 2; }
-            .themes-layout > :last-child { order: 1; }
-        }
         @media (max-width: 768px) {
-            .features-grid { grid-template-columns: repeat(2, 1fr); }
-            .steps { grid-template-columns: 1fr; }
-            .built-for-grid { grid-template-columns: 1fr; gap: 40px; }
             .nav-links a:not(.nav-cta) { display: none; }
-            .hero { padding: 120px 0 60px; }
-            .mock-dashboard { padding: 12px; }
-            .mock-table-header, .mock-table-row { grid-template-columns: 80px repeat(3, 1fr); }
-            .mock-th:nth-child(n+5), .mock-td:nth-child(n+5) { display: none; }
-            .themes-mock .mock-table-header, .themes-mock .mock-table-row { grid-template-columns: 50px 1fr repeat(3, 1fr); }
-            .themes-mock .mock-th:nth-child(n+6), .themes-mock .mock-td:nth-child(n+6) { display: none; }
-        }
-
-        @media (max-width: 480px) {
-            .hero-actions { flex-direction: column; align-items: center; }
-            .btn { width: 100%; justify-content: center; }
+            .hero-buttons { flex-direction: column; }
+            .features { grid-template-columns: 1fr; gap: 32px; }
+            .value-strip { gap: 32px; }
+            .comp-grid { gap: 24px; }
+            .gallery-arrow { width: 36px; height: 36px; font-size: 14px; }
+            .gallery-arrow.prev { left: 8px; }
+            .gallery-arrow.next { right: 8px; }
         }
     </style>
 </head>
 <body>
 
-<div class="glow-bg"></div>
-
-<!-- NAV -->
 <nav>
-    <div class="container">
-        <a href="#" class="logo">
-            <div class="logo-icon">E</div>
-            <div class="logo-text">Earnings<span>Edge</span></div>
-        </a>
-        <div class="nav-links">
-            <a href="#built-for">Trading Style</a>
-            <a href="#features">Features</a>
-            <a href="#install">Install</a>
-            <a href="#themes">Scans</a>
-            <a href="https://github.com/earningsedgedev/earningsedge" target="_blank">GitHub</a>
-            <a href="https://ko-fi.com/earningsedge" class="nav-cta" target="_blank">☕ Support</a>
-        </div>
+    <a href="#" class="nav-logo">EarningsEdge</a>
+    <div class="nav-links">
+        <a href="#features">Features</a>
+        <a href="#install">Install</a>
+        <a href="https://github.com/earningsedgedev/earningsedge" target="_blank" rel="noopener">GitHub</a>
+        <a href="https://github.com/earningsedgedev/earningsedge/releases" class="nav-cta" id="nav-download">Download Free</a>
     </div>
 </nav>
 
-<!-- HERO -->
-<section class="hero">
-    <div class="container">
-        <div class="badge">Chrome Extension — In Active Development</div>
-        <h1>Episodic pivots.<br><span class="gradient">Earnings breakouts.</span></h1>
-        <p class="hero-sub">
-            A Chrome extension built for Qullamaggie-style momentum traders. Research earnings catalysts, spot surprise beats, and validate breakout setups — all in one dashboard.
-        </p>
-        <div class="hero-actions">
-            <a href="#install" class="btn btn-primary">↓ Get EarningsEdge</a>
-            <a href="https://ko-fi.com/earningsedge" class="btn btn-secondary" target="_blank">☕ Support on Ko-fi</a>
-        </div>
+<div class="hero">
+    <h1>Every earnings detail.<br>One dashboard.</h1>
+    <p>A free Chrome extension for momentum traders. Scan pre-market gappers, research earnings surprises, and find episodic pivots — without opening ten tabs.</p>
+    <div class="hero-buttons">
+        <a href="https://github.com/earningsedgedev/earningsedge/releases" class="btn-primary" id="hero-download">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+            Download Free
+        </a>
+        <a href="https://github.com/earningsedgedev/earningsedge" class="btn-secondary" target="_blank" rel="noopener">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/></svg>
+            View on GitHub
+        </a>
     </div>
-</section>
+    <p class="hero-sub">Built for Qullamaggie and Stockbee-style swing trading.</p>
+</div>
 
-<!-- SCREENSHOT MOCK -->
-<section class="screenshot-section">
-    <div class="container">
-        <div class="screenshot-wrapper">
-            <div class="mock-dashboard">
-                <div class="mock-topbar">
-                    <div class="mock-search">
-                        <div class="mock-search-icon"></div>
-                        <span class="mock-search-text">NVDA</span>
-                    </div>
-                </div>
-                <div class="mock-ticker-info">
-                    <span class="mock-ticker">NVDA</span>
-                    <span class="mock-company">NVIDIA Corporation</span>
-                </div>
-                <div class="mock-price-row">
-                    <span class="mock-price">$131.28</span>
-                    <span class="mock-change">+3.42 (+2.68%)</span>
-                </div>
-                <div class="mock-tabs">
-                    <div class="mock-tab active">Earnings</div>
-                    <div class="mock-tab">News</div>
-                    <div class="mock-tab">Analysts</div>
-                    <div class="mock-tab">Insiders</div>
-                    <div class="mock-tab">Funds</div>
-                    <div class="mock-tab">Short Int.</div>
-                    <div class="mock-tab">Analysis</div>
-                </div>
-                <div class="mock-table">
-                    <div class="mock-table-header">
-                        <div class="mock-th">Quarter</div>
-                        <div class="mock-th">EPS</div>
-                        <div class="mock-th">%CHG</div>
-                        <div class="mock-th">%SURP</div>
-                        <div class="mock-th">Rev(Bil)</div>
-                        <div class="mock-th">%CHG</div>
-                        <div class="mock-th">%SURP</div>
-                    </div>
-                    <div class="mock-table-row">
-                        <div class="mock-td bright">Q1 2024</div>
-                        <div class="mock-td bright">0.61</div>
-                        <div class="mock-td">—</div>
-                        <div class="mock-td green">9.29%</div>
-                        <div class="mock-td bright">26.0</div>
-                        <div class="mock-td">—</div>
-                        <div class="mock-td green">5.9%</div>
-                    </div>
-                    <div class="mock-table-row">
-                        <div class="mock-td bright">Q2 2024</div>
-                        <div class="mock-td bright">0.68</div>
-                        <div class="mock-td">—</div>
-                        <div class="mock-td green">5.39%</div>
-                        <div class="mock-td bright">30.0</div>
-                        <div class="mock-td">—</div>
-                        <div class="mock-td green">4.38%</div>
-                    </div>
-                    <div class="mock-table-row">
-                        <div class="mock-td bright">Q3 2024</div>
-                        <div class="mock-td bright">0.81</div>
-                        <div class="mock-td">—</div>
-                        <div class="mock-td green">8.26%</div>
-                        <div class="mock-td bright">35.1</div>
-                        <div class="mock-td">—</div>
-                        <div class="mock-td green">5.76%</div>
-                    </div>
-                    <div class="mock-table-row">
-                        <div class="mock-td bright">Q4 2024</div>
-                        <div class="mock-td bright">0.89</div>
-                        <div class="mock-td">—</div>
-                        <div class="mock-td green">4.97%</div>
-                        <div class="mock-td bright">39.3</div>
-                        <div class="mock-td">—</div>
-                        <div class="mock-td green">3.23%</div>
-                    </div>
-                    <div class="mock-table-row">
-                        <div class="mock-td bright">Q1 2025</div>
-                        <div class="mock-td bright">0.81</div>
-                        <div class="mock-td green">33%</div>
-                        <div class="mock-td green">9.89%</div>
-                        <div class="mock-td bright">44.1</div>
-                        <div class="mock-td green">69%</div>
-                        <div class="mock-td green">1.68%</div>
-                    </div>
-                </div>
-            </div>
+<div class="gallery">
+    <div class="gallery-container">
+        <div class="gallery-track" id="gallery-track">
+            <div class="gallery-slide"><img src="images/screenshot-overview.jpg" alt="EarningsEdge stock dashboard with NVIDIA earnings, chart, and key stats" loading="eager"></div>
+            <div class="gallery-slide"><img src="images/screenshot-movers-chart.jpg" alt="Movers scanner with chart panel showing DLocal" loading="lazy"></div>
+            <div class="gallery-slide"><img src="images/screenshot-calendar.jpg" alt="Earnings calendar with BMO tickers and actuals" loading="lazy"></div>
+            <div class="gallery-slide"><img src="images/screenshot-calendar-chart.jpg" alt="Calendar chart panel showing Alibaba" loading="lazy"></div>
+            <div class="gallery-slide"><img src="images/screenshot-rs.jpg" alt="Industry relative strength rankings" loading="lazy"></div>
+            <div class="gallery-slide"><img src="images/screenshot-movers.jpg" alt="Movers scanner with gainers list" loading="lazy"></div>
         </div>
+        <button class="gallery-arrow prev" id="gallery-prev" aria-label="Previous screenshot">&#8249;</button>
+        <button class="gallery-arrow next" id="gallery-next" aria-label="Next screenshot">&#8250;</button>
     </div>
-</section>
-
-<!-- BUILT FOR MOMENTUM TRADERS -->
-<section class="built-for fade-in" id="built-for">
-    <div class="container">
-        <div class="section-label">Built for Momentum Traders</div>
-        <h2 class="section-title">Your edge on earnings season.</h2>
-        <p class="section-desc">Designed for traders who study Qullamaggie, Stockbee, and Minervini-style setups. Get the fundamental data behind the biggest moves.</p>
-
-        <div class="built-for-grid">
-            <div class="built-for-text">
-                <h3>Research episodic pivots faster</h3>
-                <p>
-                    The best breakouts start with a catalyst. A massive earnings beat, accelerating revenue growth, or a guidance raise that changes the story — these are the episodic pivots that launch new trends.
-                </p>
-                <p>
-                    EarningsEdge gives you instant access to the data that matters: earnings surprises, revenue acceleration, and historical beat patterns. No more digging through multiple sites to validate a setup.
-                </p>
-                <div class="trading-tags">
-                    <span class="trading-tag">Episodic Pivots</span>
-                    <span class="trading-tag">Earnings Breakouts</span>
-                    <span class="trading-tag">Momentum Swing Trading</span>
-                    <span class="trading-tag">Catalyst Research</span>
-                </div>
-            </div>
-            <div>
-                <ul class="checklist">
-                    <li>
-                        <span class="check">✓</span>
-                        <span>Spot earnings beats and revenue acceleration at a glance with color-coded surprise percentages</span>
-                    </li>
-                    <li>
-                        <span class="check">✓</span>
-                        <span>Track consecutive beat streaks across 8 quarters to identify companies in a growth phase</span>
-                    </li>
-                    <li>
-                        <span class="check">✓</span>
-                        <span>Weekly earnings calendar with BMO/AMC timing and market cap filters to plan your watchlist</span>
-                    </li>
-                    <li>
-                        <span class="check">✓</span>
-                        <span>Monitor insider buying activity for confirmation signals alongside earnings data</span>
-                    </li>
-                    <li>
-                        <span class="check">✓</span>
-                        <span>Check analyst upgrades and price target raises that follow strong earnings reports</span>
-                    </li>
-                </ul>
-            </div>
-        </div>
+    <div class="gallery-caption">
+        <p class="gallery-caption-text" id="gallery-caption"></p>
+        <div class="gallery-dots" id="gallery-dots"></div>
     </div>
-</section>
+</div>
 
-<!-- FEATURES -->
-<section class="features fade-in" id="features">
-    <div class="container">
-        <div class="section-label">Features</div>
-        <h2 class="section-title">Everything in one place.</h2>
-        <p class="section-desc">No more jumping between websites. Get the data you need to validate setups and plan trades — instantly.</p>
-        <div class="features-grid">
-            <div class="feature-card">
-                <div class="feature-icon">📊</div>
-                <h3>Earnings History</h3>
-                <p>8 quarters of historical EPS and revenue with estimates, surprises, and year-over-year growth. Plus 4 future quarters of estimates.</p>
-            </div>
-            <div class="feature-card">
-                <div class="feature-icon">📅</div>
-                <h3>Earnings Calendar</h3>
-                <p>Weekly earnings calendar with BMO/AMC grouping, market cap filters, ADR%, and adaptive price columns that switch between pre-market, market, and after-hours data.</p>
-            </div>
-            <div class="feature-card">
-                <div class="feature-icon">🏢</div>
-                <h3>Analyst Ratings</h3>
-                <p>Consensus rating, price targets, and a detailed table of upgrades, downgrades, and initiations merged from multiple data sources.</p>
-            </div>
-            <div class="feature-card">
-                <div class="feature-icon">👤</div>
-                <h3>Insider Transactions</h3>
-                <p>Corporate insider buys and sells with values and position changes. Includes congressional and politician trades tagged with party and state.</p>
-            </div>
-            <div class="feature-card">
-                <div class="feature-icon">📉</div>
-                <h3>Short Interest</h3>
-                <p>Summary card + biweekly history. Shares short, % of float, days to cover — one year of data points to spot squeeze setups.</p>
-            </div>
-            <div class="feature-card">
-                <div class="feature-icon">🏛️</div>
-                <h3>Institutional Funds</h3>
-                <p>Institutional ownership %, accumulation/distribution signal, net inflow, and the 15 most recent fund filings.</p>
-            </div>
-            <div class="feature-card">
-                <div class="feature-icon">🔥</div>
-                <h3>Movers Scanner</h3>
-                <p>Top 200 gainers and losers across pre-market, market hours, and after-hours. Filter by market cap, volume, ADR%, and change %.</p>
-            </div>
-            <div class="feature-card">
-                <div class="feature-icon">📈</div>
-                <h3>Industry RS</h3>
-                <p>Sector and industry relative strength rankings with breadth bars, trend arrows, and leader tickers. Find which groups are leading the market.</p>
-            </div>
-            <div class="feature-card">
-                <div class="feature-icon">🏷️</div>
-                <h3>Stock Themes</h3>
-                <p>40 themes, 268 sub-themes — from AI to uranium. Expand any sub-theme to see individual tickers with performance across 8 timeframes.</p>
-            </div>
-            <div class="feature-card">
-                <div class="feature-icon">📰</div>
-                <h3>ETF Dashboard</h3>
-                <p>Search any ETF for a dedicated dashboard with performance, top 15 holdings with price changes, news, and analysis. Click holdings to jump to stock view.</p>
-            </div>
-            <div class="feature-card">
-                <div class="feature-icon">⌨️</div>
-                <h3>Command Palette</h3>
-                <p>Hit Space or ⌘K to search tickers with autocomplete, jump to recent searches, or navigate to any scanner — all from the keyboard.</p>
-            </div>
-            <div class="feature-card">
-                <div class="feature-icon">⚡</div>
-                <h3>Fast & Easy</h3>
-                <p>No API keys. No account required. Just install the extension and start using it immediately. Get up and running in seconds.</p>
-            </div>
-        </div>
+<div class="value-strip">
+    <div class="value-item"><div class="value">Free</div><div class="label">No subscription</div></div>
+    <div class="value-item"><div class="value">&lt;1s</div><div class="label">Data load time</div></div>
+    <div class="value-item"><div class="value">0</div><div class="label">API keys needed</div></div>
+    <div class="value-item"><div class="value">100%</div><div class="label">Local — no server</div></div>
+</div>
+
+<div class="features" id="features">
+    <div class="feat"><h3>Earnings History</h3><p>8 quarters + 4 forward estimates with EPS, Revenue, %Change, and surprise %. Annual data going back 10+ years. Color-coded beat/miss.</p></div>
+    <div class="feat"><h3>Movers Scanner</h3><p>Top gainers and losers across pre-market, market hours, and after-hours. Filter by market cap, volume, ADR%, and change %.</p></div>
+    <div class="feat"><h3>Earnings Calendar</h3><p>Weekly view with BMO/AMC grouping. Real-time price changes that adapt to the trading session. Confirmed actuals with surprise % as they come in.</p></div>
+    <div class="feat"><h3>Industry Relative Strength</h3><p>145 industries ranked daily. Breadth bars, trend arrows, and leader tickers. Expand any industry to see individual stocks.</p></div>
+    <div class="feat"><h3>Analysts, Insiders, Short Interest</h3><p>Analyst ratings merged from multiple sources. Insider buys and sells with congressional trades. Short interest history with 6 years of data.</p></div>
+    <div class="feat"><h3>Chart Panel &amp; Hover Charts</h3><p>Split-view with TradingView chart and news on any scanner. Hover any ticker for a candlestick preview. Full keyboard navigation.</p></div>
+    <div class="feat"><h3>Stock Themes &amp; ETFs</h3><p>40 themes, 268 sub-themes — AI to uranium. Theme ETF scanner. Search any ETF for a dedicated dashboard with holdings and performance.</p></div>
+    <div class="feat"><h3>Command Palette &amp; Shortcuts</h3><p>Space or ⌘K to search with autocomplete. 1–8 for tabs, Ctrl+R to refresh. Recent searches with company names and timestamps.</p></div>
+</div>
+
+<div class="competitive">
+    <h2>No friction. Just data.</h2>
+    <div class="comp-grid">
+        <div class="comp-item"><span>Free</span> — no subscription</div>
+        <div class="comp-item"><span>No account</span> — no signup</div>
+        <div class="comp-item"><span>No API keys</span> — nothing to configure</div>
+        <div class="comp-item"><span>No server</span> — runs in your browser</div>
     </div>
-</section>
+    <p>Installs in 30 seconds. Works immediately.</p>
+    <p class="byline">Built by an active trader who uses this every market day.</p>
+</div>
 
-<!-- THEMES SCANNER -->
-<section class="themes-section fade-in" id="themes">
-    <div class="container">
-        <div class="section-label">Scans</div>
-        <h2 class="section-title">Know what's moving — and why.</h2>
-        <p class="section-desc">Four scanners to find the leading sectors, hottest movers, and strongest industry groups. From daily gappers to long-term theme trends.</p>
-        <div class="themes-layout">
-            <div class="themes-mock">
-                <div class="mock-body">
-                    <div style="font-size: 15px; font-weight: 600; margin-bottom: 12px;">Movers — Market Hours</div>
-                    <div class="mock-filter-row">
-                        <div class="mock-filter active">Gainers</div>
-                        <div class="mock-filter">Losers</div>
-                        <div class="mock-filter" style="margin-left:auto; opacity:0.5;">Pre-Market</div>
-                        <div class="mock-filter" style="opacity:0.5;">After-Hours</div>
-                    </div>
-                    <div class="mock-table">
-                        <div class="mock-table-header">
-                            <div class="mock-th">Ticker</div><div class="mock-th">Mkt Cap</div>
-                            <div class="mock-th">Chg%</div><div class="mock-th">ADR%</div><div class="mock-th">RVol</div>
-                            <div class="mock-th">Float</div><div class="mock-th">Short%</div>
-                        </div>
-                        <div class="mock-table-row">
-                            <div class="mock-td bright">RDDT</div>
-                            <div class="mock-td">28.4B</div>
-                            <div class="mock-td green">+14.2%</div><div class="mock-td">5.8%</div><div class="mock-td green">8.4x</div>
-                            <div class="mock-td">86.2M</div><div class="mock-td">4.1%</div>
-                        </div>
-                        <div class="mock-table-row">
-                            <div class="mock-td bright">HIMS</div>
-                            <div class="mock-td">12.1B</div>
-                            <div class="mock-td green">+11.8%</div><div class="mock-td">7.2%</div><div class="mock-td green">5.1x</div>
-                            <div class="mock-td">204M</div><div class="mock-td">8.3%</div>
-                        </div>
-                        <div class="mock-table-row">
-                            <div class="mock-td bright">CELH</div>
-                            <div class="mock-td">7.8B</div>
-                            <div class="mock-td green">+9.5%</div><div class="mock-td">6.1%</div><div class="mock-td green">4.2x</div>
-                            <div class="mock-td">225M</div><div class="mock-td">12.4%</div>
-                        </div>
-                        <div class="mock-table-row">
-                            <div class="mock-td bright">DUOL</div>
-                            <div class="mock-td">16.3B</div>
-                            <div class="mock-td green">+7.3%</div><div class="mock-td">4.5%</div><div class="mock-td green">3.8x</div>
-                            <div class="mock-td">18.7M</div><div class="mock-td">3.2%</div>
-                        </div>
-                        <div class="mock-table-row">
-                            <div class="mock-td bright">CAVA</div>
-                            <div class="mock-td">14.9B</div>
-                            <div class="mock-td green">+6.1%</div><div class="mock-td">5.3%</div><div class="mock-td green">2.9x</div>
-                            <div class="mock-td">92.5M</div><div class="mock-td">5.7%</div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="themes-text">
-                <h3>Four scanners built in.</h3>
-                <p>Movers, Stock Themes, Theme ETFs, and Industry Relative Strength — all with hover chart previews and sortable columns.</p>
-                <p>Find what's moving right now, which sectors are leading, and where rotation is happening before it shows up in price.</p>
-            </div>
-        </div>
+<div class="install" id="install">
+    <h2>Get started</h2>
+    <div class="steps">
+        <div class="step"><div class="step-num">1</div><h3>Download</h3><p>Grab the latest .zip from <a href="https://github.com/earningsedgedev/earningsedge/releases">GitHub Releases</a> and unzip it.</p></div>
+        <div class="step"><div class="step-num">2</div><h3>Load in Chrome</h3><p>Go to <code>chrome://extensions</code>, enable Developer mode, click Load unpacked.</p></div>
+        <div class="step"><div class="step-num">3</div><h3>Search a ticker</h3><p>Type any US stock or ETF. Earnings, analysts, insiders, short interest — all there.</p></div>
     </div>
-</section>
+    <a href="https://github.com/earningsedgedev/earningsedge" class="btn-primary" id="install-download" target="_blank" rel="noopener">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+        Download Free
+    </a>
+</div>
 
-<!-- HOW TO INSTALL -->
-<section class="how-it-works fade-in" id="install">
-    <div class="container">
-        <div class="section-label">Get Started</div>
-        <h2 class="section-title">Install EarningsEdge</h2>
-        <p class="section-desc">Install manually in under a minute. Source code available on GitHub.</p>
-        <div class="steps">
-            <div class="step">
-                <div class="step-number">1</div>
-                <h3>Download</h3>
-                <p>Download the latest release from our <a href="https://github.com/earningsedgedev/earningsedge/releases" style="color: var(--accent); text-decoration: none;">GitHub Releases</a> page and unzip the file.</p>
-            </div>
-            <div class="step">
-                <div class="step-number">2</div>
-                <h3>Load in Chrome</h3>
-                <p>Go to <span style="font-family: 'JetBrains Mono', monospace; color: var(--accent); font-size: 13px;">chrome://extensions</span>, enable <strong>Developer mode</strong> (top right), then click <strong>Load unpacked</strong> and select the unzipped folder.</p>
-            </div>
-            <div class="step">
-                <div class="step-number">3</div>
-                <h3>Start Trading</h3>
-                <p>Click the EarningsEdge icon in your toolbar, type any ticker, and get instant access to earnings, analysts, insiders, and news.</p>
-            </div>
-        </div>
-    </div>
-</section>
-
-<!-- SUPPORT -->
-<section class="support fade-in" id="support">
-    <div class="container">
-        <div class="support-card">
-            <h2>Support the Project</h2>
-            <p>EarningsEdge is built and maintained by a solo developer and active trader. If you find it useful, a small donation helps keep development going.</p>
-            <a href="https://ko-fi.com/earningsedge" class="kofi-btn" target="_blank">☕ Buy Me a Coffee</a>
-        </div>
-    </div>
-</section>
-
-<!-- FOOTER -->
 <footer>
-    <div class="container">
-        <p>© 2026 EarningsEdge — Built for traders, by a trader. <a href="https://github.com/earningsedgedev/earningsedge" target="_blank">GitHub</a> · <a href="https://ko-fi.com/earningsedge" target="_blank">Ko-fi</a></p>
+    <div class="footer-links">
+        <a href="https://github.com/earningsedgedev/earningsedge" target="_blank" rel="noopener">GitHub</a>
+        <a href="https://ko-fi.com/earningsedge" target="_blank" rel="noopener">Support on Ko-fi</a>
+        <a href="mailto:earningsedge.dev@gmail.com">Contact</a>
     </div>
+    <p class="copy">&copy; 2026 EarningsEdge</p>
 </footer>
 
 <script>
-    const observer = new IntersectionObserver((entries) => {
-        entries.forEach(entry => { if (entry.isIntersecting) entry.target.classList.add('visible'); });
-    }, { threshold: 0.1 });
-    document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+(function() {
+    var captions = [
+        'Stock Dashboard — earnings history, chart, key stats, and news',
+        'Movers — chart panel with price action and inline news',
+        'Earnings Calendar — BMO/AMC grouping with actuals and surprise %',
+        'Calendar — chart panel for quick visual confirmation',
+        'Industry RS — relative strength rankings with breadth and trends',
+        'Movers — top gainers and losers with filters and earnings badges'
+    ];
+    var track = document.getElementById('gallery-track');
+    var captionEl = document.getElementById('gallery-caption');
+    var dotsContainer = document.getElementById('gallery-dots');
+    var current = 0, total = captions.length, autoTimer;
 
-    // Track outbound link clicks
-    document.querySelectorAll('a[href*="ko-fi.com"]').forEach(link => {
-        link.addEventListener('click', () => {
-            gtag('event', 'link_click', { link_name: 'kofi_click', link_url: link.href });
-        });
-    });
-    document.querySelectorAll('a[href*="github.com"]').forEach(link => {
-        link.addEventListener('click', () => {
-            gtag('event', 'link_click', { link_name: 'github_click', link_url: link.href });
-        });
-    });
+    for (var i = 0; i < total; i++) {
+        var d = document.createElement('button');
+        d.className = 'gallery-dot' + (i === 0 ? ' active' : '');
+        d.setAttribute('aria-label', 'Slide ' + (i + 1));
+        d.dataset.index = i;
+        dotsContainer.appendChild(d);
+    }
+
+    function goTo(n) {
+        current = ((n % total) + total) % total;
+        track.style.transform = 'translateX(-' + (current * 100) + '%)';
+        captionEl.textContent = captions[current];
+        for (var i = 0; i < dotsContainer.children.length; i++)
+            dotsContainer.children[i].className = 'gallery-dot' + (i === current ? ' active' : '');
+    }
+    function startAuto() { stopAuto(); autoTimer = setInterval(function() { goTo(current + 1); }, 5000); }
+    function stopAuto() { if (autoTimer) clearInterval(autoTimer); }
+
+    document.getElementById('gallery-prev').onclick = function() { stopAuto(); goTo(current - 1); startAuto(); };
+    document.getElementById('gallery-next').onclick = function() { stopAuto(); goTo(current + 1); startAuto(); };
+    dotsContainer.onclick = function(e) { if (e.target.dataset.index !== undefined) { stopAuto(); goTo(+e.target.dataset.index); startAuto(); } };
+    document.onkeydown = function(e) { if (e.key === 'ArrowLeft') { stopAuto(); goTo(current - 1); startAuto(); } if (e.key === 'ArrowRight') { stopAuto(); goTo(current + 1); startAuto(); } };
+
+    var sx = 0, g = document.querySelector('.gallery-container');
+    g.addEventListener('touchstart', function(e) { sx = e.touches[0].clientX; }, { passive: true });
+    g.addEventListener('touchend', function(e) { var d = sx - e.changedTouches[0].clientX; if (Math.abs(d) > 50) { stopAuto(); goTo(current + (d > 0 ? 1 : -1)); startAuto(); } }, { passive: true });
+
+    goTo(0); startAuto();
+})();
+
+document.querySelectorAll('[id$="-download"]').forEach(function(el) { el.onclick = function() { gtag('event', 'link_click', { link_name: 'download_click', link_url: el.href, link_position: el.id }); }; });
+document.querySelectorAll('a[href*="ko-fi"]').forEach(function(el) { el.onclick = function() { gtag('event', 'link_click', { link_name: 'kofi_click', link_url: el.href }); }; });
+document.querySelectorAll('a[href*="github.com/earningsedgedev"]').forEach(function(el) { el.onclick = function() { gtag('event', 'link_click', { link_name: 'github_click', link_url: el.href }); }; });
 </script>
 
 </body>
