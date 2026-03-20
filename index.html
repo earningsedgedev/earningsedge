@@ -43,7 +43,9 @@
         window.dataLayer = window.dataLayer || [];
         function gtag(){dataLayer.push(arguments);}
         gtag('js', new Date());
-        gtag('config', 'G-G9KWF4DSSG');
+        gtag('config', 'G-G9KWF4DSSG', {
+            'app_version': 'landing-page'
+        });
     </script>
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -233,12 +235,12 @@
     <div class="footer-links">
         <a href="https://github.com/earningsedgedev/earningsedge" target="_blank" rel="noopener">GitHub</a>
         <a href="https://ko-fi.com/earningsedge" target="_blank" rel="noopener">Support on Ko-fi</a>
-        <a href="mailto:earningsedge.dev@gmail.com">Contact</a>
+        <a href="/cdn-cgi/l/email-protection#234642514d4a4d4450464744460d47465563444e424a4f0d404c4e">Contact</a>
     </div>
     <p class="copy">&copy; 2026 EarningsEdge</p>
 </footer>
 
-<script>
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
 (function() {
     var captions = [
         'Stock Dashboard — earnings history, chart, key stats, and news',
@@ -285,8 +287,4 @@
 
 document.querySelectorAll('[id$="-download"]').forEach(function(el) { el.onclick = function() { gtag('event', 'link_click', { link_name: 'download_click', link_url: el.href, link_position: el.id }); }; });
 document.querySelectorAll('a[href*="ko-fi"]').forEach(function(el) { el.onclick = function() { gtag('event', 'link_click', { link_name: 'kofi_click', link_url: el.href }); }; });
-document.querySelectorAll('a[href*="github.com/earningsedgedev"]').forEach(function(el) { el.onclick = function() { gtag('event', 'link_click', { link_name: 'github_click', link_url: el.href }); }; });
-</script>
-
-</body>
-</html>
+document.querySelectorAll('a[href*="github.com/earningsedgedev"]').forEa
