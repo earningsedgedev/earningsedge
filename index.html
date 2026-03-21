@@ -38,14 +38,12 @@
     }
     </script>
 
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-G9KWF4DSSG"></script>
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-18W5VGQ28H"></script>
     <script>
         window.dataLayer = window.dataLayer || [];
         function gtag(){dataLayer.push(arguments);}
         gtag('js', new Date());
-        gtag('config', 'G-G9KWF4DSSG', {
-            'app_version': 'landing-page'
-        });
+        gtag('config', 'G-18W5VGQ28H');
     </script>
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -144,7 +142,7 @@
 <body>
 
 <nav>
-    <a href="#" class="nav-logo">EarningsEdge</a>
+    <a href="#" class="nav-logo"><span style="color:var(--text)">Earnings</span>Edge</a>
     <div class="nav-links">
         <a href="#features">Features</a>
         <a href="#install">Install</a>
@@ -287,4 +285,7 @@
 
 document.querySelectorAll('[id$="-download"]').forEach(function(el) { el.onclick = function() { gtag('event', 'link_click', { link_name: 'download_click', link_url: el.href, link_position: el.id }); }; });
 document.querySelectorAll('a[href*="ko-fi"]').forEach(function(el) { el.onclick = function() { gtag('event', 'link_click', { link_name: 'kofi_click', link_url: el.href }); }; });
-document.querySelectorAll('a[href*="github.com/earningsedgedev"]').forEa
+document.querySelectorAll('a[href*="github.com/earningsedgedev"]').forEach(function(el) { el.onclick = function() { gtag('event', 'link_click', { link_name: 'github_click', link_url: el.href, link_position: el.id || 'body' }); }; });
+</script>
+</body>
+</html>
